@@ -319,7 +319,7 @@
             color: #a9aed6;
             opacity: 0.8;
         }
-        /* дата релиза — овал как у Soon */
+        /* дата релиза — овал */
         .track-date {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 500;
@@ -331,7 +331,7 @@
             letter-spacing: 0.3px;
             border: 0.5px solid #a27bc0;
             opacity: 0.95;
-            margin-left: auto;  /* прижимаем к правому краю */
+            margin-left: auto;
             white-space: nowrap;
         }
         /* Soon — такой же овал */
@@ -347,6 +347,21 @@
             border: 0.5px solid #a27bc0;
             opacity: 0.95;
             white-space: nowrap;
+        }
+        /* New — жёлтый овал */
+        .track-new {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1e1a0b;
+            background: #f5d547;
+            padding: 2px 12px;
+            border-radius: 30px;
+            letter-spacing: 0.3px;
+            border: 0.5px solid #f3c623;
+            opacity: 0.95;
+            white-space: nowrap;
+            box-shadow: 0 0 6px #f5e374;
         }
         .no-artwork {
             background: #20243e;
@@ -505,7 +520,7 @@
             .track-title { font-size: 1.1rem; }
             .news-text { font-size: 1.3rem; }
             .news-button { font-size: 1.1rem; padding: 14px 28px; }
-            .track-date, .track-soon { font-size: 0.8rem; padding: 2px 8px; }
+            .track-date, .track-soon, .track-new { font-size: 0.8rem; padding: 2px 8px; }
         }
         @media screen and (max-width: 480px) {
             .track-row { padding: 10px 12px; gap: 12px; }
@@ -569,16 +584,18 @@
         </div>
     </section>
 
-    <!-- ПОСЛЕДНИЕ РЕЛИЗЫ (с датами) -->
+    <!-- ПОСЛЕДНИЕ РЕЛИЗЫ (с датами, + New у SLXT) -->
     <section id="latest">
         <h2 class="section-title">Последние релизы</h2>
         <div class="tracklist">
+            <!-- SLXT + New -->
             <a href="https://band.link/slxt" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/14LdLFVm/slxt.jpg" alt="slxt"></div>
                 <div class="track-info">
                     <span class="track-title">SLXT</span>
                     <span class="track-feat">ft. RIAXA</span>
                     <span class="track-sub-light"> - Single</span>
+                    <span class="track-new">New</span>
                     <span class="track-date">09.04.26</span>
                 </div>
             </a>
@@ -618,11 +635,10 @@
         </div>
     </section>
 
-    <!-- БУДУЩИЕ РЕЛИЗЫ (даты + Soon, у Deluxe добавлен Album) -->
+    <!-- БУДУЩИЕ РЕЛИЗЫ -->
     <section id="upcoming">
         <h2 class="section-title">Будущие релизы</h2>
         <div class="tracklist">
-            <!-- 1. S Class ft. WORLDSAMKA -->
             <a href="https://aetherlab.band.link/di_sclass_ws" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/kD9s8ySt/IMG-6963-(2).png" alt="S Class"></div>
                 <div class="track-info">
@@ -633,7 +649,6 @@
                     <span class="track-soon">Soon</span>
                 </div>
             </a>
-            <!-- 2. Project X (Album) -->
             <a href="https://lnkfi.re/ProjectX" target="_blank" class="track-row">
                 <div class="track-cover no-artwork"><i class="fas fa-hourglass-start"></i></div>
                 <div class="track-info">
@@ -643,7 +658,6 @@
                     <span class="track-soon">Soon</span>
                 </div>
             </a>
-            <!-- 3. Project X (Deluxe Version) — добавлен "- Album" -->
             <a href="https://lnkfi.re/ProjectX-DeluxeVersion" target="_blank" class="track-row">
                 <div class="track-cover no-artwork"><i class="fas fa-hourglass-half" style="opacity:0.7;"></i></div>
                 <div class="track-info">
