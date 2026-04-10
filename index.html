@@ -1,357 +1,528 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>diviaxel</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>diviaxel · official</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #f5f3f0 0%, #e8e4df 100%);
+      /* узор — тонкие пересекающиеся линии */
+      background-image: 
+        repeating-linear-gradient(45deg, rgba(180, 170, 160, 0.08) 0px, rgba(180, 170, 160, 0.08) 2px, transparent 2px, transparent 8px),
+        repeating-linear-gradient(135deg, rgba(150, 140, 130, 0.05) 0px, rgba(150, 140, 130, 0.05) 2px, transparent 2px, transparent 10px);
+      color: #1e1c1a;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
 
-<style>
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
-html {
-  scroll-behavior: smooth;
-}
+    /* ----- header & navigation (кнопки) ----- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(245, 243, 240, 0.7);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding: 12px 0;
+    }
 
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  color: white;
-  background: linear-gradient(180deg, #0a0a0a, #141414);
-  cursor: none;
-}
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
-/* кастом курсор */
-.cursor {
-  position: fixed;
-  width: 8px;
-  height: 8px;
-  background: white;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 999;
-}
+    .nav-btn {
+      display: inline-block;
+      padding: 10px 22px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      text-decoration: none;
+      color: #2b2825;
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 14px;        /* слегка закруглённые квадратные кнопки */
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+    }
 
-.cursor-glow {
-  position: fixed;
-  width: 60px;
-  height: 60px;
-  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
-  pointer-events: none;
-  z-index: 998;
-  border-radius: 50%;
-}
+    /* анимация при наведении: увеличение + подсветка */
+    .nav-btn:hover {
+      transform: scale(1.06);
+      background: #ffffffd6;
+      box-shadow: 0 12px 20px -8px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,240,0.8);
+      color: #000;
+      border-color: rgba(255,255,255,0.6);
+    }
 
-/* Узор */
-body::before {
-  content: "";
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 25px 25px;
-  z-index: -1;
-}
+    /* ----- секции ----- */
+    section {
+      padding: 70px 0 60px;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
 
-/* Навбар */
-nav {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 15px;
-  z-index: 100;
-}
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: 40px;
+      color: #1f1c19;
+      border-left: 6px solid #a0988e;
+      padding-left: 24px;
+    }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  transition: 0.3s;
-}
+    /* ----- главная (home) ----- */
+    .hero {
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
 
-nav a:hover {
-  opacity: 0.6;
-}
+    .artist-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3.8rem, 12vw, 6.5rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: #1e1b18;
+      margin-bottom: 24px;
+    }
 
-/* Секции */
-section {
-  padding: 120px 20px;
-  max-width: 1200px;
-  margin: auto;
+    .artist-desc {
+      font-size: 1.3rem;
+      max-width: 720px;
+      color: #3e3a36;
+      font-weight: 400;
+      border-left: 3px solid #b9b0a6;
+      padding-left: 28px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    }
 
-  opacity: 0;
-  transform: translateY(40px);
-  transition: 0.8s;
-}
+    /* ----- карточки релизов (обложка + название) ----- */
+    .releases-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px 24px;
+      justify-content: flex-start;
+    }
 
-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+    .release-card {
+      flex: 0 0 calc(20% - 19.2px);  /* 5 в ряд на ПК */
+      min-width: 150px;
+      transition: transform 0.2s;
+    }
 
-/* Главная */
-.hero h1 {
-  font-family: 'Manrope', sans-serif;
-  font-size: 70px;
-}
+    .release-card:hover {
+      transform: translateY(-5px);
+    }
 
-.hero p {
-  opacity: 0.6;
-  max-width: 500px;
-  margin: auto;
-}
+    .cover-wrapper {
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 12px 24px -10px rgba(0,0,0,0.15);
+      background: #d6d0c8;
+      margin-bottom: 16px;
+    }
 
-/* Заголовки */
-h2 {
-  margin-bottom: 40px;
-}
+    .cover-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s;
+    }
 
-/* Релизы */
-.releases {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+    .release-card:hover .cover-wrapper img {
+      transform: scale(1.03);
+    }
 
-.card {
-  width: 200px;
-  transition: 0.4s;
-  filter: blur(0px);
-}
+    .track-title {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 1.1rem;
+      line-height: 1.4;
+      color: #1e1b18;
+      margin-bottom: 4px;
+    }
 
-.releases:hover .card {
-  filter: blur(3px);
-}
+    /* стили для ft / дополнительной информации */
+    .track-feat {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 400;
+      font-size: 0.85rem;
+      color: rgba(80, 75, 70, 0.65);
+      letter-spacing: 0.2px;
+      opacity: 0.9;
+    }
 
-.card:hover {
-  transform: scale(1.08);
-  filter: blur(0) !important;
-}
+    .track-type {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: #1e1b18;
+    }
 
-.card img {
-  width: 100%;
-  border-radius: 10px;
-}
+    /* комбинированная строка названия */
+    .track-name-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      column-gap: 4px;
+    }
 
-.title {
-  margin-top: 10px;
-  font-weight: 600;
-}
+    /* ----- соцсети ----- */
+    .social-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 36px 48px;
+      justify-content: flex-start;
+      margin-top: 20px;
+    }
 
-.ft {
-  color: rgba(255,255,255,0.4);
-  font-size: 14px;
-  font-family: 'Manrope';
-}
+    .social-item {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+      min-width: 100px;
+    }
 
-.type {
-  font-size: 14px;
-}
+    .social-icon {
+      font-size: 2.8rem;
+      margin-bottom: 8px;
+      color: #2b2723;
+      transition: transform 0.15s;
+    }
 
-/* соцсети */
-.socials {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+    .social-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 1.3rem;
+      transition: transform 0.2s ease;
+    }
 
-.social {
-  background: #1a1a1a;
-  padding: 20px;
-  border-radius: 10px;
-  width: 180px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.3s;
-}
+    .social-url-hint {
+      position: absolute;
+      bottom: -12px;
+      opacity: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(70, 65, 60, 0.55);
+      white-space: nowrap;
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+      transform: translateY(8px);
+    }
 
-.social:hover {
-  transform: scale(1.07);
-  background: #222;
-}
+    .social-item:hover .social-label {
+      transform: translateY(-8px);
+    }
 
-.social span {
-  display: block;
-  opacity: 0;
-  font-size: 12px;
-  color: rgba(255,255,255,0.4);
-  transition: 0.3s;
-}
+    .social-item:hover .social-url-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-.social:hover span {
-  opacity: 1;
-  margin-top: 5px;
-}
+    .social-item:hover .social-icon {
+      transform: scale(1.05);
+    }
 
-/* 📱 адаптив */
-@media (max-width: 768px) {
+    /* адаптивность */
+    @media screen and (max-width: 900px) {
+      .release-card {
+        flex: 0 0 calc(33.33% - 16px);
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+    }
 
-  body {
-    cursor: default;
-  }
+    @media screen and (max-width: 600px) {
+      .container {
+        padding: 0 20px;
+      }
+      .nav-bar {
+        gap: 6px;
+      }
+      .nav-btn {
+        padding: 8px 14px;
+        font-size: 0.9rem;
+      }
+      .hero {
+        padding-top: 60px;
+        padding-bottom: 60px;
+      }
+      .release-card {
+        flex: 0 0 calc(50% - 12px);
+        min-width: 140px;
+      }
+      .releases-grid {
+        gap: 20px 12px;
+      }
+      .social-list {
+        gap: 24px 28px;
+      }
+      .social-label {
+        font-size: 1.1rem;
+      }
+    }
 
-  .cursor, .cursor-glow {
-    display: none;
-  }
+    @media screen and (max-width: 400px) {
+      .release-card {
+        flex: 0 0 100%;
+      }
+      .social-list {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .social-item {
+        align-items: flex-start;
+      }
+    }
 
-  .hero h1 {
-    font-size: 40px;
-  }
+    /* плавный скролл от якорей с учётом хедера */
+    html {
+      scroll-padding-top: 90px;
+    }
 
-  .releases {
-    justify-content: center;
-  }
+    /* дополнительные улучшения */
+    .future-note {
+      margin-top: 12px;
+      font-style: italic;
+      color: #5f5852;
+    }
 
-  .card {
-    width: 140px;
-  }
-
-  nav {
-    gap: 15px;
-    font-size: 14px;
-  }
-
-}
-
-</style>
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="cursor"></div>
-<div class="cursor-glow"></div>
-
-<nav>
-  <a href="#home">Главная</a>
-  <a href="#latest">Последние релизы</a>
-  <a href="#future">Будущие релизы</a>
-  <a href="#socials">Соц. сети</a>
-</nav>
-
-<section id="home" class="hero">
-  <h1>diviaxel</h1>
-  <p>Новый артист с уникальным звучанием, сочетающий атмосферный стиль и современный звук.</p>
-</section>
-
-<section id="latest">
-  <h2>Последние релизы</h2>
-  <div class="releases">
-
-    <div class="card">
-      <img src="https://i.postimg.cc/14LdLFVm/slxt.jpg">
-      <div class="title">SLXT <span class="ft">ft. RIAXA</span></div>
-      <div class="type">- Single</div>
-    </div>
-
-    <div class="card">
-      <img src="https://i.postimg.cc/3Wp10cWw/nvr.jpg">
-      <div class="title">НАХОДКА В РЭПЕ</div>
-      <div class="type">- Single</div>
-    </div>
-
-    <div class="card">
-      <img src="https://i.postimg.cc/t1Ytqr8N/pvr.jpg">
-      <div class="title">POWER</div>
-      <div class="type">- Single</div>
-    </div>
-
-    <div class="card">
-      <img src="https://i.postimg.cc/mhQ3g1p0/mmi.jpg">
-      <div class="title">MOMMY <span class="ft">ft. CashiFly</span></div>
-      <div class="type">- Single</div>
-    </div>
-
-    <div class="card">
-      <img src="https://i.postimg.cc/8FJMQ7rY/kpdn.jpg">
-      <div class="title">КУПИДОН</div>
-      <div class="type">- Single</div>
-    </div>
-
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-bar">
+      <a href="#home" class="nav-btn">Главная</a>
+      <a href="#latest" class="nav-btn">Последние релизы</a>
+      <a href="#upcoming" class="nav-btn">Будущие релизы</a>
+      <a href="#social" class="nav-btn">Соц. сети</a>
+    </nav>
   </div>
-</section>
+</header>
 
-<section id="future">
-  <h2>Будущие релизы</h2>
-  <div class="releases">
-
-    <div class="card">
-      <img src="https://i.postimg.cc/kD9s8ySt/IMG-6963-(2).png">
-      <div class="title">S Class <span class="ft">ft. WORLDSAMKA</span></div>
-      <div class="type">- Single</div>
+<main>
+  <!-- ГЛАВНАЯ -->
+  <section id="home" class="hero">
+    <div class="container">
+      <h1 class="artist-name">diviaxel</h1>
+      <div class="artist-desc">
+        звук между индустриальным r&b и сырым рэпом.<br>
+        атмосфера — как запотевшее стекло на окраине.
+      </div>
     </div>
+  </section>
 
-    <div class="card">
-      <img src="https://i.postimg.cc/LnxxmZnk/IMG-6866.jpg">
-      <div class="title">Project X Deluxe Version <span class="ft">(21 Track)</span></div>
-      <div class="type">- Album</div>
+  <!-- ПОСЛЕДНИЕ РЕЛИЗЫ -->
+  <section id="latest">
+    <div class="container">
+      <h2 class="section-title">Последние релизы</h2>
+      <div class="releases-grid">
+        
+        <!-- 1. SLXT ft. RIAXA - Single -->
+        <div class="release-card">
+          <div class="cover-wrapper">
+            <a href='https://postimg.cc/14LdLFVm' target='_blank'><img src='https://i.postimg.cc/14LdLFVm/slxt.jpg' alt='SLXT cover' loading="lazy"></a>
+          </div>
+          <div class="track-name-line">
+            <span class="track-title">SLXT</span>
+            <span class="track-feat">ft. RIAXA</span>
+            <span class="track-type"> - Single</span>
+          </div>
+        </div>
+        
+        <!-- 2. НАХОДКА В РЭПЕ - Single -->
+        <div class="release-card">
+          <div class="cover-wrapper">
+            <a href='https://postimg.cc/3Wp10cWw' target='_blank'><img src='https://i.postimg.cc/3Wp10cWw/nvr.jpg' alt='НАХОДКА В РЭПЕ' loading="lazy"></a>
+          </div>
+          <div class="track-name-line">
+            <span class="track-title">НАХОДКА В РЭПЕ</span>
+            <span class="track-type"> - Single</span>
+          </div>
+        </div>
+        
+        <!-- 3. POWER - Single -->
+        <div class="release-card">
+          <div class="cover-wrapper">
+            <a href='https://postimg.cc/t1Ytqr8N' target='_blank'><img src='https://i.postimg.cc/t1Ytqr8N/pvr.jpg' alt='POWER' loading="lazy"></a>
+          </div>
+          <div class="track-name-line">
+            <span class="track-title">POWER</span>
+            <span class="track-type"> - Single</span>
+          </div>
+        </div>
+        
+        <!-- 4. MOMMY ft. CashiFly - Single -->
+        <div class="release-card">
+          <div class="cover-wrapper">
+            <a href='https://postimg.cc/mhQ3g1p0' target='_blank'><img src='https://i.postimg.cc/mhQ3g1p0/mmi.jpg' alt='MOMMY' loading="lazy"></a>
+          </div>
+          <div class="track-name-line">
+            <span class="track-title">MOMMY</span>
+            <span class="track-feat">ft. CashiFly</span>
+            <span class="track-type"> - Single</span>
+          </div>
+        </div>
+        
+        <!-- 5. КУПИДОН - Single -->
+        <div class="release-card">
+          <div class="cover-wrapper">
+            <a href='https://postimg.cc/8FJMQ7rY' target='_blank'><img src='https://i.postimg.cc/8FJMQ7rY/kpdn.jpg' alt='КУПИДОН' loading="lazy"></a>
+          </div>
+          <div class="track-name-line">
+            <span class="track-title">КУПИДОН</span>
+            <span class="track-type"> - Single</span>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="card">
-      <img src="https://i.postimg.cc/c6N9hSpd/IMG-6865.jpg">
-      <div class="title">Project X <span class="ft">(12 Track)</span></div>
-      <div class="type">- Album</div>
+  <!-- БУДУЩИЕ РЕЛИЗЫ -->
+  <section id="upcoming">
+    <div class="container">
+      <h2 class="section-title">Будущие релизы</h2>
+      <div class="releases-grid">
+        
+        <!-- 1. S Class ft. WORLDSAMKA - Single -->
+        <div class="release-card">
+          <div class="cover-wrapper">
+            <a href='https://postimg.cc/kD9s8ySt' target='_blank'><img src='https://i.postimg.cc/kD9s8ySt/IMG-6963-(2).png' alt='S Class' loading="lazy"></a>
+          </div>
+          <div class="track-name-line">
+            <span class="track-title">S Class</span>
+            <span class="track-feat">ft. WORLDSAMKA</span>
+            <span class="track-type"> - Single</span>
+          </div>
+        </div>
+        
+        <!-- 2. Project X Deluxe Version - Album (21 Track) -->
+        <div class="release-card">
+          <div class="cover-wrapper">
+            <a href='https://postimg.cc/LnxxmZnk' target='_blank'><img src='https://i.postimg.cc/LnxxmZnk/IMG-6866.jpg' alt='Project X Deluxe' loading="lazy"></a>
+          </div>
+          <div class="track-name-line">
+            <span class="track-title">Project X Deluxe Version</span>
+            <span class="track-type"> - Album (21 Track)</span>
+          </div>
+        </div>
+        
+        <!-- 3. Project X - Album (12 Track) -->
+        <div class="release-card">
+          <div class="cover-wrapper">
+            <a href='https://postimg.cc/c6N9hSpd' target='_blank'><img src='https://i.postimg.cc/c6N9hSpd/IMG-6865.jpg' alt='Project X' loading="lazy"></a>
+          </div>
+          <div class="track-name-line">
+            <span class="track-title">Project X</span>
+            <span class="track-type"> - Album (12 Track)</span>
+          </div>
+        </div>
+      </div>
+      <!-- маленькая пометка, эстетично -->
+      <div class="future-note">✦ скоро на всех площадках</div>
     </div>
+  </section>
 
+  <!-- СОЦ. СЕТИ -->
+  <section id="social">
+    <div class="container">
+      <h2 class="section-title">Соц. сети</h2>
+      <div class="social-list">
+        
+        <!-- Telegram -->
+        <a href="https://t.me/diviaxel" target="_blank" class="social-item" rel="noopener noreferrer">
+          <i class="fab fa-telegram social-icon"></i>
+          <span class="social-label">Telegram</span>
+          <span class="social-url-hint">t.me/diviaxel</span>
+        </a>
+        
+        <!-- TikTok -->
+        <a href="https://www.tiktok.com/@diviaxel" target="_blank" class="social-item" rel="noopener noreferrer">
+          <i class="fab fa-tiktok social-icon"></i>
+          <span class="social-label">TikTok</span>
+          <span class="social-url-hint">tiktok.com/@diviaxel</span>
+        </a>
+        
+        <!-- VK -->
+        <a href="https://vk.ru/diviaxel" target="_blank" class="social-item" rel="noopener noreferrer">
+          <i class="fab fa-vk social-icon"></i>
+          <span class="social-label">VK</span>
+          <span class="social-url-hint">vk.ru/diviaxel</span>
+        </a>
+        
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/diviaxel" target="_blank" class="social-item" rel="noopener noreferrer">
+          <i class="fab fa-instagram social-icon"></i>
+          <span class="social-label">Instagram</span>
+          <span class="social-url-hint">instagram.com/diviaxel</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <span>diviaxel · 2025</span>
   </div>
-</section>
+</footer>
 
-<section id="socials">
-  <h2>Соц. сети</h2>
-  <div class="socials">
-
-    <div class="social" onclick="window.open('https://t.me/diviaxel')">
-      Telegram
-      <span>t.me/diviaxel</span>
-    </div>
-
-    <div class="social" onclick="window.open('https://www.tiktok.com/@diviaxel')">
-      TikTok
-      <span>tiktok.com/@diviaxel</span>
-    </div>
-
-    <div class="social" onclick="window.open('https://vk.ru/diviaxel')">
-      VK
-      <span>vk.ru/diviaxel</span>
-    </div>
-
-    <div class="social" onclick="window.open('https://www.instagram.com/diviaxel')">
-      Instagram
-      <span>instagram.com/diviaxel</span>
-    </div>
-
-  </div>
-</section>
-
+<!-- небольшой скрипт для плавного скролла (уже есть scroll-behavior, но учтём старые браузеры) -->
 <script>
-
-/* анимация появления */
-const sections = document.querySelectorAll("section");
-
-window.addEventListener("scroll", () => {
-  sections.forEach(sec => {
-    const top = sec.getBoundingClientRect().top;
-    if(top < window.innerHeight - 100){
-      sec.classList.add("visible");
-    }
-  });
-});
-
-/* кастом курсор */
-const cursor = document.querySelector(".cursor");
-const glow = document.querySelector(".cursor-glow");
-
-document.addEventListener("mousemove", e => {
-  cursor.style.top = e.clientY + "px";
-  cursor.style.left = e.clientX + "px";
-
-  glow.style.top = e.clientY - 30 + "px";
-  glow.style.left = e.clientX - 30 + "px";
-});
-
+  (function() {
+    // якорные ссылки — плавно
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === "#" || href === "") return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  })();
 </script>
 
 </body>
