@@ -5,16 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>diviaxel</title>
 
-<!-- Шрифты -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   color: white;
   background: linear-gradient(180deg, #0a0a0a, #141414);
+  cursor: none;
+}
+
+/* кастом курсор */
+.cursor {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+  pointer-events: none;
+  z-index: 998;
+  border-radius: 50%;
 }
 
 /* Узор */
@@ -39,12 +64,12 @@ nav {
   justify-content: center;
   gap: 30px;
   padding: 15px;
+  z-index: 100;
 }
 
 nav a {
   color: white;
   text-decoration: none;
-  font-weight: 400;
   transition: 0.3s;
 }
 
@@ -54,28 +79,35 @@ nav a:hover {
 
 /* Секции */
 section {
-  padding: 120px 40px;
+  padding: 120px 20px;
   max-width: 1200px;
   margin: auto;
+
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.8s;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Главная */
 .hero h1 {
   font-family: 'Manrope', sans-serif;
   font-size: 70px;
-  margin: 0;
 }
 
 .hero p {
   opacity: 0.6;
   max-width: 500px;
-  margin: 20px auto;
+  margin: auto;
 }
 
 /* Заголовки */
 h2 {
   margin-bottom: 40px;
-  font-weight: 600;
 }
 
 /* Релизы */
@@ -87,7 +119,17 @@ h2 {
 
 .card {
   width: 200px;
-  transition: 0.3s;
+  transition: 0.4s;
+  filter: blur(0px);
+}
+
+.releases:hover .card {
+  filter: blur(3px);
+}
+
+.card:hover {
+  transform: scale(1.08);
+  filter: blur(0) !important;
 }
 
 .card img {
@@ -95,11 +137,6 @@ h2 {
   border-radius: 10px;
 }
 
-.card:hover {
-  transform: scale(1.05);
-}
-
-/* Текст релиза */
 .title {
   margin-top: 10px;
   font-weight: 600;
@@ -108,14 +145,14 @@ h2 {
 .ft {
   color: rgba(255,255,255,0.4);
   font-size: 14px;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Manrope';
 }
 
 .type {
   font-size: 14px;
 }
 
-/* Кнопки соцсетей */
+/* соцсети */
 .socials {
   display: flex;
   gap: 20px;
@@ -130,8 +167,6 @@ h2 {
   text-align: center;
   cursor: pointer;
   transition: 0.3s;
-  position: relative;
-  overflow: hidden;
 }
 
 .social:hover {
@@ -139,7 +174,6 @@ h2 {
   background: #222;
 }
 
-/* ссылка под названием */
 .social span {
   display: block;
   opacity: 0;
@@ -153,10 +187,43 @@ h2 {
   margin-top: 5px;
 }
 
+/* 📱 адаптив */
+@media (max-width: 768px) {
+
+  body {
+    cursor: default;
+  }
+
+  .cursor, .cursor-glow {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .releases {
+    justify-content: center;
+  }
+
+  .card {
+    width: 140px;
+  }
+
+  nav {
+    gap: 15px;
+    font-size: 14px;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
+
+<div class="cursor"></div>
+<div class="cursor-glow"></div>
 
 <nav>
   <a href="#home">Главная</a>
@@ -165,13 +232,11 @@ h2 {
   <a href="#socials">Соц. сети</a>
 </nav>
 
-<!-- Главная -->
 <section id="home" class="hero">
   <h1>diviaxel</h1>
   <p>Новый артист с уникальным звучанием, сочетающий атмосферный стиль и современный звук.</p>
 </section>
 
-<!-- Последние релизы -->
 <section id="latest">
   <h2>Последние релизы</h2>
   <div class="releases">
@@ -209,7 +274,6 @@ h2 {
   </div>
 </section>
 
-<!-- Будущие релизы -->
 <section id="future">
   <h2>Будущие релизы</h2>
   <div class="releases">
@@ -235,7 +299,6 @@ h2 {
   </div>
 </section>
 
-<!-- Соцсети -->
 <section id="socials">
   <h2>Соц. сети</h2>
   <div class="socials">
@@ -262,6 +325,34 @@ h2 {
 
   </div>
 </section>
+
+<script>
+
+/* анимация появления */
+const sections = document.querySelectorAll("section");
+
+window.addEventListener("scroll", () => {
+  sections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100){
+      sec.classList.add("visible");
+    }
+  });
+});
+
+/* кастом курсор */
+const cursor = document.querySelector(".cursor");
+const glow = document.querySelector(".cursor-glow");
+
+document.addEventListener("mousemove", e => {
+  cursor.style.top = e.clientY + "px";
+  cursor.style.left = e.clientX + "px";
+
+  glow.style.top = e.clientY - 30 + "px";
+  glow.style.left = e.clientX - 30 + "px";
+});
+
+</script>
 
 </body>
 </html>
