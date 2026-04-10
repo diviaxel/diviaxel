@@ -481,6 +481,20 @@
             transform: scale(1.04);
         }
 
+        /* текст Soon... */
+        .soon-text {
+            margin-top: 24px;
+            text-align: right;
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: 4px;
+            color: #b9bedd;
+            opacity: 0.8;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-transform: uppercase;
+            padding-right: 10px;
+        }
+
         /* адаптив */
         @media screen and (max-width: 780px) {
             .container { padding: 15px 18px; }
@@ -493,6 +507,7 @@
             .track-title { font-size: 1.1rem; }
             .news-text { font-size: 1.3rem; }
             .news-button { font-size: 1.1rem; padding: 14px 28px; }
+            .soon-text { font-size: 1.3rem; }
         }
         @media screen and (max-width: 480px) {
             .track-row { padding: 10px 12px; gap: 12px; }
@@ -618,11 +633,11 @@
         </div>
     </section>
 
-    <!-- БУДУЩИЕ РЕЛИЗЫ -->
+    <!-- БУДУЩИЕ РЕЛИЗЫ (порядок изменён: 1. S Class, 2. Project X, 3. Project X Deluxe) -->
     <section id="upcoming">
         <h2 class="section-title">Будущие релизы</h2>
         <div class="tracklist">
-            <!-- S Class ft. WORLDSAMKA -->
+            <!-- 1. S Class ft. WORLDSAMKA -->
             <a href="https://aetherlab.band.link/di_sclass_ws" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/kD9s8ySt/IMG-6963-(2).png" alt="S Class"></div>
                 <div class="track-info">
@@ -631,15 +646,7 @@
                     <span class="track-sub-light">— Single</span>
                 </div>
             </a>
-            <!-- Project X (Deluxe Version) — обложки нет, плейсхолдер -->
-            <a href="https://lnkfi.re/ProjectX-DeluxeVersion" target="_blank" class="track-row">
-                <div class="track-cover no-artwork"><i class="fas fa-hourglass-half" style="opacity:0.7;"></i></div>
-                <div class="track-info">
-                    <span class="track-title">Project X</span>
-                    <span class="track-feat">(Deluxe Version)</span>
-                </div>
-            </a>
-            <!-- Project X -->
+            <!-- 2. Project X (обычный) — был третьим, теперь второй -->
             <a href="https://lnkfi.re/ProjectX" target="_blank" class="track-row">
                 <div class="track-cover no-artwork"><i class="fas fa-hourglass-start"></i></div>
                 <div class="track-info">
@@ -647,7 +654,17 @@
                     <span class="track-sub-light">— Single</span>
                 </div>
             </a>
+            <!-- 3. Project X (Deluxe Version) — был вторым, теперь третий -->
+            <a href="https://lnkfi.re/ProjectX-DeluxeVersion" target="_blank" class="track-row">
+                <div class="track-cover no-artwork"><i class="fas fa-hourglass-half" style="opacity:0.7;"></i></div>
+                <div class="track-info">
+                    <span class="track-title">Project X</span>
+                    <span class="track-feat">(Deluxe Version)</span>
+                </div>
+            </a>
         </div>
+        <!-- текст Soon... под треклистом -->
+        <div class="soon-text">Soon...</div>
     </section>
 
     <!-- СОЦ. СЕТИ -->
