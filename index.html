@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>diviaxel</title>
+
+<!-- Шрифты -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  color: white;
+  background: linear-gradient(180deg, #0a0a0a, #141414);
+}
+
+/* Узор */
+body::before {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 25px 25px;
+  z-index: -1;
+}
+
+/* Навбар */
+nav {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 15px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 400;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  opacity: 0.6;
+}
+
+/* Секции */
+section {
+  padding: 120px 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Главная */
+.hero h1 {
+  font-family: 'Manrope', sans-serif;
+  font-size: 70px;
+  margin: 0;
+}
+
+.hero p {
+  opacity: 0.6;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+/* Заголовки */
+h2 {
+  margin-bottom: 40px;
+  font-weight: 600;
+}
+
+/* Релизы */
+.releases {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 200px;
+  transition: 0.3s;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* Текст релиза */
+.title {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.ft {
+  color: rgba(255,255,255,0.4);
+  font-size: 14px;
+  font-family: 'Manrope', sans-serif;
+}
+
+.type {
+  font-size: 14px;
+}
+
+/* Кнопки соцсетей */
+.socials {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.social {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  width: 180px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.social:hover {
+  transform: scale(1.07);
+  background: #222;
+}
+
+/* ссылка под названием */
+.social span {
+  display: block;
+  opacity: 0;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  transition: 0.3s;
+}
+
+.social:hover span {
+  opacity: 1;
+  margin-top: 5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+  <a href="#home">Главная</a>
+  <a href="#latest">Последние релизы</a>
+  <a href="#future">Будущие релизы</a>
+  <a href="#socials">Соц. сети</a>
+</nav>
+
+<!-- Главная -->
+<section id="home" class="hero">
+  <h1>diviaxel</h1>
+  <p>Новый артист с уникальным звучанием, сочетающий атмосферный стиль и современный звук.</p>
+</section>
+
+<!-- Последние релизы -->
+<section id="latest">
+  <h2>Последние релизы</h2>
+  <div class="releases">
+
+    <div class="card">
+      <img src="https://i.postimg.cc/14LdLFVm/slxt.jpg">
+      <div class="title">SLXT <span class="ft">ft. RIAXA</span></div>
+      <div class="type">- Single</div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.postimg.cc/3Wp10cWw/nvr.jpg">
+      <div class="title">НАХОДКА В РЭПЕ</div>
+      <div class="type">- Single</div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.postimg.cc/t1Ytqr8N/pvr.jpg">
+      <div class="title">POWER</div>
+      <div class="type">- Single</div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.postimg.cc/mhQ3g1p0/mmi.jpg">
+      <div class="title">MOMMY <span class="ft">ft. CashiFly</span></div>
+      <div class="type">- Single</div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.postimg.cc/8FJMQ7rY/kpdn.jpg">
+      <div class="title">КУПИДОН</div>
+      <div class="type">- Single</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Будущие релизы -->
+<section id="future">
+  <h2>Будущие релизы</h2>
+  <div class="releases">
+
+    <div class="card">
+      <img src="https://i.postimg.cc/kD9s8ySt/IMG-6963-(2).png">
+      <div class="title">S Class <span class="ft">ft. WORLDSAMKA</span></div>
+      <div class="type">- Single</div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.postimg.cc/LnxxmZnk/IMG-6866.jpg">
+      <div class="title">Project X Deluxe Version <span class="ft">(21 Track)</span></div>
+      <div class="type">- Album</div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.postimg.cc/c6N9hSpd/IMG-6865.jpg">
+      <div class="title">Project X <span class="ft">(12 Track)</span></div>
+      <div class="type">- Album</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Соцсети -->
+<section id="socials">
+  <h2>Соц. сети</h2>
+  <div class="socials">
+
+    <div class="social" onclick="window.open('https://t.me/diviaxel')">
+      Telegram
+      <span>t.me/diviaxel</span>
+    </div>
+
+    <div class="social" onclick="window.open('https://www.tiktok.com/@diviaxel')">
+      TikTok
+      <span>tiktok.com/@diviaxel</span>
+    </div>
+
+    <div class="social" onclick="window.open('https://vk.ru/diviaxel')">
+      VK
+      <span>vk.ru/diviaxel</span>
+    </div>
+
+    <div class="social" onclick="window.open('https://www.instagram.com/diviaxel')">
+      Instagram
+      <span>instagram.com/diviaxel</span>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>
