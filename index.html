@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>diviaxel · official</title>
-    <!-- Google Fonts & Font Awesome -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@500;600;700&family=Raleway:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -18,485 +18,465 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(145deg, #0b0e14 0%, #121826 40%, #1e1f2b 80%, #2a2e3f 100%);
+            background: #0b0b0f;
             min-height: 100vh;
-            color: #f0f0f0;
-            line-height: 1.5;
+            color: #ffffff;
             position: relative;
             overflow-x: hidden;
-            /* тонкий узор (полупрозрачные линии/точки) */
-            background-image: 
-                repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 2px, transparent 2px, transparent 8px),
-                radial-gradient(circle at 30% 40%, rgba(180, 150, 220, 0.03) 0%, transparent 30%),
-                radial-gradient(circle at 80% 70%, rgba(120, 160, 210, 0.04) 0%, transparent 40%);
-            background-blend-mode: overlay;
         }
 
-        /* бегающий розовый блюрный шарик */
+        /* animated gradient background (black ↔ dark grey) */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #1e1e24, #0a0a0e);
+            background-size: 200% 200%;
+            animation: bgShift 18s ease infinite;
+            z-index: -3;
+        }
+        @keyframes bgShift {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        /* subtle pattern overlay */
+        .pattern-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M30 5 L55 30 L30 55 L5 30 Z" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="1"/></svg>');
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        /* pink blur follower */
         .cursor-blur {
             position: fixed;
             width: 400px;
             height: 400px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 140, 200, 0.2) 0%, rgba(255, 140, 200, 0.05) 60%, transparent 80%);
-            filter: blur(60px);
+            background: rgba(255, 120, 200, 0.25);
+            filter: blur(100px);
             pointer-events: none;
-            z-index: 1;
+            z-index: -1;
             transform: translate(-50%, -50%);
-            transition: opacity 0.2s;
+            transition: transform 0.08s linear;
             will-change: left, top;
-            opacity: 0.5;
         }
 
-        /* контейнер с контентом выше блюра */
-        .wrapper {
-            position: relative;
-            z-index: 5;
-            max-width: 1300px;
+        /* main container */
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 20px 30px 40px;
+            position: relative;
+            z-index: 2;
         }
 
-        /* ----- header / навигация ----- */
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 24px 0 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 28px;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #eaeef5, #b6c8da);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
+        /* ----- navigation (desktop) ----- */
         .desktop-nav {
             display: flex;
-            gap: 32px;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
         }
-
         .nav-btn {
-            background: transparent;
-            border: none;
-            color: #ddd;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 500;
+            background: #12131c;
+            border: 1px solid #2a2e3f;
+            color: #f0f0ff;
+            padding: 12px 26px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
             font-size: 1.1rem;
-            padding: 8px 14px;
-            border-radius: 16px;
+            border-radius: 18px;
             cursor: pointer;
-            transition: all 0.25s ease;
             backdrop-filter: blur(4px);
-            border: 1px solid transparent;
-            text-decoration: none;
+            box-shadow: 0 10px 20px -8px rgba(0,0,0,0.6);
+            transition: all 0.25s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: #10121e;
         }
-
         .nav-btn:hover {
-            background: rgba(220, 200, 240, 0.08);
-            border-color: rgba(210, 190, 230, 0.25);
-            transform: scale(1.05);
-            box-shadow: 0 0 12px rgba(200, 160, 240, 0.2);
-            color: white;
+            transform: scale(1.08);
+            background: #1e2440;
+            border-color: #6d6f9c;
+            box-shadow: 0 0 18px rgba(150, 150, 255, 0.3);
         }
 
-        /* бургер (мобильный) */
-        .burger {
+        /* mobile nav */
+        .mobile-nav {
             display: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 100;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
         }
-        .burger span {
-            width: 30px;
-            height: 3px;
-            background: #e0e0e0;
-            border-radius: 8px;
+        .menu-icon {
+            font-size: 32px;
+            color: #fff;
+            background: rgba(20, 25, 40, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #3d405b;
+            cursor: pointer;
             transition: 0.2s;
         }
-
+        .menu-icon:hover {
+            background: #2a2f50;
+        }
         .mobile-menu {
-            display: none;
-            flex-direction: column;
-            background: rgba(20, 24, 35, 0.95);
-            backdrop-filter: blur(16px);
             position: fixed;
             top: 0;
             left: 0;
-            width: 75%;
-            max-width: 300px;
+            width: 260px;
             height: 100vh;
-            padding: 80px 20px 30px;
-            box-shadow: 8px 0 30px rgba(0,0,0,0.5);
-            z-index: 99;
+            background: #0e101c;
+            backdrop-filter: blur(12px);
+            border-right: 1px solid #2f3250;
+            padding: 30px 20px;
             transform: translateX(-100%);
-            transition: transform 0.3s ease;
-            border-right: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            box-shadow: 8px 0 30px rgba(0,0,0,0.5);
         }
         .mobile-menu.open {
             transform: translateX(0);
         }
         .mobile-menu .nav-btn {
-            text-align: left;
             width: 100%;
-            padding: 16px 12px;
-            font-size: 1.3rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            border-radius: 0;
-            transform: none !important;
+            text-align: left;
+            background: transparent;
+            border: 1px solid #353b5a;
         }
-        .mobile-menu .nav-btn:hover {
-            background: rgba(255,200,220,0.1);
-        }
-        .overlay {
-            display: none;
+        .menu-overlay {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.3);
             backdrop-filter: blur(2px);
-            z-index: 90;
+            z-index: 99;
+            display: none;
+        }
+        .menu-overlay.show {
+            display: block;
         }
 
-        /* секции */
+        /* sections */
         section {
-            padding: 40px 0 60px;
             scroll-margin-top: 30px;
+            margin-bottom: 70px;
         }
-
-        h2 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
+        .section-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 600;
-            margin-bottom: 36px;
-            letter-spacing: -0.02em;
-            background: linear-gradient(to right, #f2f2f8, #c0c8d8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
-            border-bottom: 2px solid rgba(200,180,230,0.3);
-            padding-bottom: 8px;
+            font-size: 2.4rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 28px;
+            border-left: 8px solid #b5a9ff;
+            padding-left: 28px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
 
-        /* главная */
-        .artist-profile {
+        /* artist card (home) */
+        .artist-card {
             display: flex;
             align-items: center;
-            gap: 60px;
+            gap: 40px;
+            background: rgba(8, 10, 20, 0.55);
+            backdrop-filter: blur(10px);
+            border-radius: 48px;
+            padding: 30px 40px;
+            border: 1px solid #2b2f55;
+            box-shadow: 0 25px 40px -12px #00000080;
             flex-wrap: wrap;
-            justify-content: center;
         }
         .artist-avatar {
-            flex: 0 0 240px;
-            text-align: center;
+            flex-shrink: 0;
+            width: 220px;
+            height: 220px;
+            border-radius: 40px;
+            overflow: hidden;
+            border: 2px solid #4f5180;
+            box-shadow: 0 0 30px #1e1f3a;
         }
         .artist-avatar img {
             width: 100%;
-            max-width: 280px;
-            border-radius: 28px;
-            box-shadow: 0 25px 40px -10px rgba(0,0,0,0.5), 0 0 0 1px rgba(210,190,240,0.15);
-            transition: transform 0.3s;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
         .artist-info {
             flex: 1;
-            min-width: 280px;
         }
         .artist-name {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 5.5rem;
+            font-size: 5rem;
             font-weight: 700;
-            line-height: 1.1;
-            background: linear-gradient(135deg, #f5f0ff, #cad2e3);
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 16px;
+            text-transform: lowercase;
+            background: linear-gradient(135deg, #ffffff, #d4d0ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
         }
         .artist-desc {
+            background: #0c0f1c;
+            padding: 24px 28px;
+            border-radius: 28px;
             font-size: 1.2rem;
-            color: #ccd0dd;
-            max-width: 650px;
-            backdrop-filter: blur(8px);
-            background: rgba(20, 25, 38, 0.2);
-            padding: 16px 20px;
-            border-radius: 24px;
-            border-left: 4px solid rgba(210,170,230,0.5);
+            line-height: 1.5;
+            color: #e6e9ff;
+            border: 1px solid #303660;
+            box-shadow: inset 0 2px 5px #00000033, 0 8px 12px #00000030;
+            font-weight: 400;
         }
 
-        /* чарт-релизы (apple music style) */
-        .chart-list {
+        /* треклист (Apple Music стиль) */
+        .tracklist {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            max-width: 900px;
-            margin: 0 auto;
+            gap: 8px;
+            background: rgba(18, 22, 40, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 18px 12px;
+            border-radius: 36px;
+            border: 1px solid #323a60;
         }
-        .chart-item {
+        .track-row {
             display: flex;
             align-items: center;
-            gap: 18px;
-            padding: 10px 18px;
-            background: rgba(15, 20, 30, 0.45);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            border: 1px solid rgba(220, 200, 250, 0.08);
+            gap: 20px;
+            padding: 10px 22px;
+            border-radius: 24px;
+            background: #0d1020c9;
+            backdrop-filter: blur(4px);
+            border: 1px solid #2a2f55;
             transition: all 0.2s ease;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px #00000033;
         }
-        .chart-item:hover {
-            background: rgba(40, 45, 65, 0.7);
-            border-color: rgba(200, 170, 240, 0.35);
+        .track-row:hover {
+            background: #1a1f42;
+            border-color: #7f84c2;
             transform: scale(1.01);
-            box-shadow: 0 0 18px rgba(200, 130, 220, 0.15);
+            box-shadow: 0 8px 20px #0b0e1f;
         }
-        .chart-index {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            font-size: 1.6rem;
-            min-width: 40px;
-            color: #b3b9cc;
-            opacity: 0.8;
+        .track-cover {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: #1b1e38;
+            border: 1px solid #444b7a;
+            box-shadow: 0 6px 10px #0000004d;
         }
-        .chart-cover {
-            width: 54px;
-            height: 54px;
-            border-radius: 12px;
+        .track-cover img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.2s;
-            background: #1a1e2a;
+            display: block;
         }
-        .chart-info {
+        .track-info {
             flex: 1;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 6px 12px;
         }
         .track-title {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
-            font-size: 1.3rem;
-            color: #f0f2fa;
-            letter-spacing: -0.01em;
-            line-height: 1.3;
+            font-size: 1.35rem;
+            letter-spacing: -0.02em;
+            color: #ffffff;
         }
         .track-feat {
-            font-family: 'Raleway', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 400;
             font-size: 1rem;
-            color: rgba(200, 200, 220, 0.7);
-            font-style: italic;
-            margin-left: 6px;
+            color: #b1b6e0;
+            opacity: 0.75;
         }
-        /* для будущих релизов: (Deluxe Version) как фит */
-        .track-deluxe {
-            font-family: 'Raleway', sans-serif;
+        .track-sub {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            color: #c6caff;
+            margin-left: 5px;
+        }
+        /* deluxe / single индикатор как название, но менее ярко? сделаем как фит */
+        .track-sub-light {
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 400;
             font-size: 0.95rem;
-            color: rgba(180, 180, 210, 0.6);
-            font-style: italic;
-            margin-left: 6px;
+            color: #a9aed6;
+            opacity: 0.8;
         }
-        .coming-soon-cover {
-            background: #222a38;
+        /* выравнивание в будущих релизах без обложки */
+        .no-artwork {
+            background: #20243e;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #8892a8;
-            font-size: 11px;
-            text-transform: uppercase;
-            font-weight: 500;
+            color: #7d83b5;
+            font-size: 18px;
         }
 
-        /* блок соцсетей */
+        /* соцсети блок */
         .social-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 24px;
-            margin-top: 30px;
+            gap: 25px;
         }
-        .social-card {
+        .social-button {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(18, 24, 35, 0.6);
-            backdrop-filter: blur(12px);
+            background: #0c1020e0;
+            backdrop-filter: blur(8px);
+            border: 1px solid #3e4570;
             border-radius: 28px;
-            padding: 24px 30px;
-            min-width: 150px;
-            border: 1px solid rgba(210, 190, 250, 0.15);
+            padding: 20px 30px;
+            min-width: 170px;
             text-decoration: none;
-            color: #eaeef5;
+            color: white;
             transition: all 0.25s;
-            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.3);
-            cursor: pointer;
+            box-shadow: 0 12px 18px -8px black;
             position: relative;
+            overflow: hidden;
         }
-        .social-card:hover {
-            transform: scale(1.05);
-            background: rgba(35, 42, 60, 0.8);
-            border-color: rgba(220, 180, 250, 0.5);
-            box-shadow: 0 0 28px rgba(200, 140, 230, 0.2);
+        .social-button:hover {
+            transform: scale(1.07);
+            background: #1c2348;
+            border-color: #a3a9e6;
+            box-shadow: 0 0 25px #4f56a0;
         }
         .social-icon {
-            font-size: 42px;
+            font-size: 38px;
             margin-bottom: 12px;
-            color: #d4dcec;
         }
-        .social-name {
-            font-family: 'Montserrat', sans-serif;
+        .social-label {
             font-weight: 600;
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             transition: transform 0.2s;
         }
-        .social-handle {
-            font-family: 'Inter', sans-serif;
+        .social-url-hint {
             font-size: 0.9rem;
-            color: rgba(200, 200, 230, 0.5);
-            opacity: 0;
-            transform: translateY(4px);
-            transition: opacity 0.2s, transform 0.2s;
-            margin-top: 4px;
+            color: #b9bedd;
+            opacity: 0.7;
+            margin-top: 6px;
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
         }
-        .social-card:hover .social-name {
-            transform: translateY(-4px);
+        .social-button:hover .social-label {
+            transform: translateY(-6px);
         }
-        .social-card:hover .social-handle {
+        .social-button:hover .social-url-hint {
             opacity: 1;
-            transform: translateY(0);
         }
 
-        /* футер */
-        footer {
-            margin-top: 70px;
-            padding: 30px 0 40px;
+        /* footer */
+        .footer-note {
+            margin-top: 80px;
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.04);
-            color: #aaaec0;
+            border-top: 1px dashed #40477a;
+            padding-top: 35px;
+            font-size: 1.2rem;
+            color: #ccd1f0;
         }
-        .footer-message {
-            font-size: 1rem;
-            font-style: italic;
-            color: #b7bed0;
-        }
-        .footer-link {
+        .credit-link {
             display: inline-block;
             margin-top: 12px;
-            color: #cbbae0;
+            background: #191e3b;
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: #f0d0ff;
             text-decoration: none;
             font-weight: 500;
-            padding: 6px 16px;
-            border-radius: 40px;
-            background: rgba(140, 120, 180, 0.15);
-            backdrop-filter: blur(4px);
-            transition: 0.2s;
-            border: 1px solid rgba(190, 150, 230, 0.2);
+            border: 1px solid #6068a0;
+            transition: 0.15s;
         }
-        .footer-link:hover {
-            background: rgba(180, 140, 220, 0.25);
-            transform: scale(1.02);
-        }
-        .footer-link i {
-            margin-right: 6px;
+        .credit-link:hover {
+            background: #2e3465;
+            transform: scale(1.04);
         }
 
-        /* мобильная адаптация */
-        @media (max-width: 768px) {
-            .wrapper { padding: 0 16px; }
+        /* адаптив */
+        @media screen and (max-width: 780px) {
+            .container { padding: 15px 18px; }
             .desktop-nav { display: none; }
-            .burger { display: flex; }
-            header { padding: 18px 0; }
-            .logo { font-size: 24px; }
-
+            .mobile-nav { display: flex; }
             .artist-name { font-size: 3.8rem; }
-            .artist-profile { gap: 30px; }
-            .artist-avatar img { max-width: 220px; }
-
-            h2 { font-size: 2rem; }
-
-            .chart-item { padding: 10px 12px; gap: 12px; }
-            .chart-index { font-size: 1.3rem; min-width: 30px; }
-            .chart-cover { width: 46px; height: 46px; }
+            .artist-card { padding: 25px 20px; flex-direction: column; text-align: center; }
+            .artist-avatar { width: 180px; height: 180px; }
+            .section-title { font-size: 2rem; }
             .track-title { font-size: 1.1rem; }
-
-            .social-card { padding: 18px 22px; min-width: 130px; }
-            .social-icon { font-size: 36px; }
         }
-
-        @media (max-width: 480px) {
-            .artist-name { font-size: 2.8rem; }
-            .track-title { font-size: 1rem; }
+        @media screen and (max-width: 480px) {
+            .track-row { padding: 10px 12px; gap: 12px; }
+            .track-cover { width: 48px; height: 48px; }
+            .social-button { min-width: 140px; padding: 15px 10px; }
+            .social-label { font-size: 1.3rem; }
         }
-
-        /* утилиты */
-        .text-center { text-align: center; }
-        .mt-2 { margin-top: 8px; }
-        .no-click-img { pointer-events: none; } /* обложки не кликабельны сами по себе */
-        a.chart-item { pointer-events: auto; } /* вся строка кликабельна */
-
-        /* скрываем стандартный outline для красоты */
-        :focus { outline: 1px solid rgba(200,170,250,0.5); }
     </style>
 </head>
 <body>
 
-<!-- бегающий шарик -->
+<div class="bg-gradient"></div>
+<div class="pattern-overlay"></div>
 <div class="cursor-blur" id="cursorBlur"></div>
 
-<!-- оверлей для мобильного меню -->
-<div class="overlay" id="overlay"></div>
+<div class="container">
+    <!-- DESKTOP NAVIGATION -->
+    <nav class="desktop-nav">
+        <button class="nav-btn" data-section="home">Главная</button>
+        <button class="nav-btn" data-section="latest">Последние релизы</button>
+        <button class="nav-btn" data-section="upcoming">Будущие релизы</button>
+        <button class="nav-btn" data-section="social">Соц. сети</button>
+    </nav>
 
-<div class="wrapper">
-    <header>
-        <div class="logo">diviaxel</div>
-        <!-- десктоп навигация -->
-        <div class="desktop-nav">
-            <a class="nav-btn" href="#home">Главная</a>
-            <a class="nav-btn" href="#latest">Последние релизы</a>
-            <a class="nav-btn" href="#upcoming">Будущие релизы</a>
-            <a class="nav-btn" href="#social">Соц. сети</a>
+    <!-- MOBILE NAVIGATION -->
+    <div class="mobile-nav">
+        <div class="menu-icon" id="menuToggle">
+            <i class="fas fa-bars"></i>
         </div>
-        <!-- бургер -->
-        <div class="burger" id="burger">
-            <span></span><span></span><span></span>
-        </div>
-    </header>
-
-    <!-- мобильное меню -->
+        <div style="width:40px;"></div>
+    </div>
+    <div class="menu-overlay" id="menuOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
-        <a class="nav-btn" href="#home">Главная</a>
-        <a class="nav-btn" href="#latest">Последние релизы</a>
-        <a class="nav-btn" href="#upcoming">Будущие релизы</a>
-        <a class="nav-btn" href="#social">Соц. сети</a>
+        <button class="nav-btn" data-section="home">Главная</button>
+        <button class="nav-btn" data-section="latest">Последние релизы</button>
+        <button class="nav-btn" data-section="upcoming">Будущие релизы</button>
+        <button class="nav-btn" data-section="social">Соц. сети</button>
     </div>
 
-    <!-- ГЛАВНАЯ -->
+    <!-- ГЛАВНАЯ / HOME -->
     <section id="home">
-        <div class="artist-profile">
+        <div class="artist-card">
             <div class="artist-avatar">
                 <img src="https://i.postimg.cc/2bjwpkrv/avyay.png" alt="diviaxel">
             </div>
             <div class="artist-info">
                 <div class="artist-name">diviaxel</div>
                 <div class="artist-desc">
-                    Эмма Розенфельд (родилась 5 мая 2005 года). Музыкальный исполнитель и блогер, пишущий музыку в жанре Rap. Родилась в Киеве, проживает в Берлине.
+                    diviaxel – Эмма Розенфельд (родилась 5 мая 2005 года). Музыкальный исполнитель и блогер, пишущий музыку в жанре Rap. Родилась в городе Киев, а проживает в городе Берлин.
                 </div>
             </div>
         </div>
@@ -504,46 +484,48 @@
 
     <!-- ПОСЛЕДНИЕ РЕЛИЗЫ -->
     <section id="latest">
-        <h2>Последние релизы</h2>
-        <div class="chart-list">
+        <h2 class="section-title">Последние релизы</h2>
+        <div class="tracklist">
             <!-- 1. SLXT ft. RIAXA -->
-            <a href="https://band.link/slxt" target="_blank" class="chart-item">
-                <span class="chart-index">1</span>
-                <img class="chart-cover" src="https://i.postimg.cc/14LdLFVm/slxt.jpg" alt="SLXT" loading="lazy">
-                <div class="chart-info">
-                    <span class="track-title">SLXT <span class="track-feat">ft. RIAXA</span></span>
+            <a href="https://band.link/slxt" target="_blank" class="track-row">
+                <div class="track-cover"><img src="https://i.postimg.cc/14LdLFVm/slxt.jpg" alt="slxt"></div>
+                <div class="track-info">
+                    <span class="track-title">SLXT</span>
+                    <span class="track-feat">ft. RIAXA</span>
+                    <span class="track-sub-light">— Single</span>
                 </div>
             </a>
             <!-- 2. НАХОДКА В РЭПЕ -->
-            <a href="https://aetherlab.band.link/nahodkavrap" target="_blank" class="chart-item">
-                <span class="chart-index">2</span>
-                <img class="chart-cover" src="https://i.postimg.cc/3Wp10cWw/nvr.jpg" alt="НАХОДКА В РЭПЕ" loading="lazy">
-                <div class="chart-info">
+            <a href="https://aetherlab.band.link/nahodkavrap" target="_blank" class="track-row">
+                <div class="track-cover"><img src="https://i.postimg.cc/3Wp10cWw/nvr.jpg" alt="nahodka"></div>
+                <div class="track-info">
                     <span class="track-title">НАХОДКА В РЭПЕ</span>
+                    <span class="track-sub-light">— Single</span>
                 </div>
             </a>
             <!-- 3. POWER -->
-            <a href="https://aetherlab.band.link/power_di" target="_blank" class="chart-item">
-                <span class="chart-index">3</span>
-                <img class="chart-cover" src="https://i.postimg.cc/t1Ytqr8N/pvr.jpg" alt="POWER" loading="lazy">
-                <div class="chart-info">
+            <a href="https://aetherlab.band.link/power_di" target="_blank" class="track-row">
+                <div class="track-cover"><img src="https://i.postimg.cc/t1Ytqr8N/pvr.jpg" alt="power"></div>
+                <div class="track-info">
                     <span class="track-title">POWER</span>
+                    <span class="track-sub-light">— Single</span>
                 </div>
             </a>
             <!-- 4. MOMMY ft. CashiFly -->
-            <a href="https://aetherlab.band.link/fly_mommy_di" target="_blank" class="chart-item">
-                <span class="chart-index">4</span>
-                <img class="chart-cover" src="https://i.postimg.cc/mhQ3g1p0/mmi.jpg" alt="MOMMY" loading="lazy">
-                <div class="chart-info">
-                    <span class="track-title">MOMMY <span class="track-feat">ft. CashiFly</span></span>
+            <a href="https://aetherlab.band.link/fly_mommy_di" target="_blank" class="track-row">
+                <div class="track-cover"><img src="https://i.postimg.cc/mhQ3g1p0/mmi.jpg" alt="mommy"></div>
+                <div class="track-info">
+                    <span class="track-title">MOMMY</span>
+                    <span class="track-feat">ft. CashiFly</span>
+                    <span class="track-sub-light">— Single</span>
                 </div>
             </a>
             <!-- 5. КУПИДОН -->
-            <a href="https://aetherlab.band.link/kupidon_di" target="_blank" class="chart-item">
-                <span class="chart-index">5</span>
-                <img class="chart-cover" src="https://i.postimg.cc/8FJMQ7rY/kpdn.jpg" alt="КУПИДОН" loading="lazy">
-                <div class="chart-info">
+            <a href="https://aetherlab.band.link/kupidon_di" target="_blank" class="track-row">
+                <div class="track-cover"><img src="https://i.postimg.cc/8FJMQ7rY/kpdn.jpg" alt="kupidon"></div>
+                <div class="track-info">
                     <span class="track-title">КУПИДОН</span>
+                    <span class="track-sub-light">— Single</span>
                 </div>
             </a>
         </div>
@@ -551,31 +533,31 @@
 
     <!-- БУДУЩИЕ РЕЛИЗЫ -->
     <section id="upcoming">
-        <h2>Будущие релизы</h2>
-        <div class="chart-list">
-            <!-- 1. S Class ft. WORLDSAMKA -->
-            <a href="https://aetherlab.band.link/di_sclass_ws" target="_blank" class="chart-item">
-                <span class="chart-index">1</span>
-                <img class="chart-cover" src="https://i.postimg.cc/kD9s8ySt/IMG-6963-(2).png" alt="S Class" loading="lazy">
-                <div class="chart-info">
-                    <span class="track-title">S Class <span class="track-feat">ft. WORLDSAMKA</span></span>
+        <h2 class="section-title">Будущие релизы</h2>
+        <div class="tracklist">
+            <!-- S Class ft. WORLDSAMKA -->
+            <a href="https://aetherlab.band.link/di_sclass_ws" target="_blank" class="track-row">
+                <div class="track-cover"><img src="https://i.postimg.cc/kD9s8ySt/IMG-6963-(2).png" alt="S Class"></div>
+                <div class="track-info">
+                    <span class="track-title">S Class</span>
+                    <span class="track-feat">ft. WORLDSAMKA</span>
+                    <span class="track-sub-light">— Single</span>
                 </div>
             </a>
-            <!-- 2. Project X (Deluxe Version) -->
-            <a href="https://lnkfi.re/ProjectX-DeluxeVersion" target="_blank" class="chart-item">
-                <span class="chart-index">2</span>
-                <!-- обложки ещё нет: плейсхолдер -->
-                <div class="chart-cover coming-soon-cover" style="display: flex; align-items: center; justify-content: center;">soon</div>
-                <div class="chart-info">
-                    <span class="track-title">Project X <span class="track-deluxe">(Deluxe Version)</span></span>
-                </div>
-            </a>
-            <!-- 3. Project X -->
-            <a href="https://lnkfi.re/ProjectX" target="_blank" class="chart-item">
-                <span class="chart-index">3</span>
-                <div class="chart-cover coming-soon-cover" style="display: flex; align-items: center; justify-content: center;">soon</div>
-                <div class="chart-info">
+            <!-- Project X (Deluxe Version) — обложки нет, плейсхолдер -->
+            <a href="https://lnkfi.re/ProjectX-DeluxeVersion" target="_blank" class="track-row">
+                <div class="track-cover no-artwork"><i class="fas fa-hourglass-half" style="opacity:0.7;"></i></div>
+                <div class="track-info">
                     <span class="track-title">Project X</span>
+                    <span class="track-feat">(Deluxe Version)</span>
+                </div>
+            </a>
+            <!-- Project X -->
+            <a href="https://lnkfi.re/ProjectX" target="_blank" class="track-row">
+                <div class="track-cover no-artwork"><i class="fas fa-hourglass-start"></i></div>
+                <div class="track-info">
+                    <span class="track-title">Project X</span>
+                    <span class="track-sub-light">— Single</span>
                 </div>
             </a>
         </div>
@@ -583,35 +565,37 @@
 
     <!-- СОЦ. СЕТИ -->
     <section id="social">
-        <h2>Соц. сети</h2>
+        <h2 class="section-title">Соц. сети</h2>
         <div class="social-grid">
-            <a href="https://t.me/diviaxel" target="_blank" class="social-card">
+            <a href="https://t.me/diviaxel" target="_blank" class="social-button">
                 <i class="fab fa-telegram-plane social-icon"></i>
-                <span class="social-name">Telegram</span>
-                <span class="social-handle">@diviaxel</span>
+                <span class="social-label">Telegram</span>
+                <span class="social-url-hint">t.me/diviaxel</span>
             </a>
-            <a href="https://www.tiktok.com/@diviaxel" target="_blank" class="social-card">
+            <a href="https://www.tiktok.com/@diviaxel" target="_blank" class="social-button">
                 <i class="fab fa-tiktok social-icon"></i>
-                <span class="social-name">TikTok</span>
-                <span class="social-handle">@diviaxel</span>
+                <span class="social-label">TikTok</span>
+                <span class="social-url-hint">@diviaxel</span>
             </a>
-            <a href="https://vk.ru/diviaxel" target="_blank" class="social-card">
+            <a href="https://vk.ru/diviaxel" target="_blank" class="social-button">
                 <i class="fab fa-vk social-icon"></i>
-                <span class="social-name">VK</span>
-                <span class="social-handle">/diviaxel</span>
+                <span class="social-label">VK</span>
+                <span class="social-url-hint">vk.ru/diviaxel</span>
             </a>
-            <a href="https://www.instagram.com/diviaxel" target="_blank" class="social-card">
+            <a href="https://www.instagram.com/diviaxel" target="_blank" class="social-button">
                 <i class="fab fa-instagram social-icon"></i>
-                <span class="social-name">Instagram</span>
-                <span class="social-handle">@diviaxel</span>
+                <span class="social-label">Instagram</span>
+                <span class="social-url-hint">@diviaxel</span>
             </a>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer>
-        <div class="footer-message">Сайт был нежно слизан у моей лучшей подруги CashiFly.</div>
-        <a href="https://t.me/CashiFly" target="_blank" class="footer-link"><i class="fab fa-telegram-plane"></i> @CashiFly</a>
+    <footer class="footer-note">
+        Сайт был нежно слизан у моей лучшей подруги CashiFly.
+        <div>
+            <a href="https://t.me/CashiFly" target="_blank" class="credit-link">✨ t.me/CashiFly ✨</a>
+        </div>
     </footer>
 </div>
 
@@ -619,115 +603,91 @@
     (function(){
         "use strict";
 
-        // ----- бегающий розовый блюр -----
-        const blur = document.getElementById('cursorBlur');
-        if (window.innerWidth > 768) {
-            document.addEventListener('mousemove', (e) => {
-                blur.style.left = e.clientX + 'px';
-                blur.style.top = e.clientY + 'px';
-            });
-        } else {
-            blur.style.opacity = '0.2'; // на телефоне менее заметен
-            blur.style.width = '250px';
-            blur.style.height = '250px';
+        // ---------- Розовый блюрный шарик за курсором ----------
+        const blurBall = document.getElementById('cursorBlur');
+        let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+        let currentX = mouseX, currentY = mouseY;
+        const speed = 0.08;
+
+        function animateBlur() {
+            currentX += (mouseX - currentX) * speed;
+            currentY += (mouseY - currentY) * speed;
+            blurBall.style.left = currentX + 'px';
+            blurBall.style.top = currentY + 'px';
+            requestAnimationFrame(animateBlur);
+        }
+        animateBlur();
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // ---------- Плавный скролл по навигации ----------
+        const sections = {
+            home: document.getElementById('home'),
+            latest: document.getElementById('latest'),
+            upcoming: document.getElementById('upcoming'),
+            social: document.getElementById('social')
+        };
+
+        function scrollToSection(id) {
+            const el = sections[id];
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
-        // ----- мобильное меню -----
-        const burger = document.getElementById('burger');
+        const navButtons = document.querySelectorAll('.nav-btn');
+        navButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const section = btn.getAttribute('data-section');
+                if (section) scrollToSection(section);
+                // закрываем мобильное меню
+                mobileMenu.classList.remove('open');
+                overlay.classList.remove('show');
+            });
+        });
+
+        // ---------- Mobile menu ----------
+        const menuToggle = document.getElementById('menuToggle');
         const mobileMenu = document.getElementById('mobileMenu');
-        const overlay = document.getElementById('overlay');
-        const navLinks = document.querySelectorAll('.mobile-menu .nav-btn');
+        const overlay = document.getElementById('menuOverlay');
 
-        function closeMenu() {
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            overlay.classList.toggle('show');
+        });
+        overlay.addEventListener('click', () => {
             mobileMenu.classList.remove('open');
-            overlay.style.display = 'none';
-            document.body.style.overflow = '';
-        }
-        function openMenu() {
-            mobileMenu.classList.add('open');
-            overlay.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        burger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (mobileMenu.classList.contains('open')) {
-                closeMenu();
-            } else {
-                openMenu();
-            }
+            overlay.classList.remove('show');
         });
 
-        overlay.addEventListener('click', closeMenu);
-        navLinks.forEach(link => {
-            link.addEventListener('click', closeMenu);
-        });
-
-        // плавный скролл для якорных ссылок (десктоп и мобилка)
-        document.querySelectorAll('a.nav-btn[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href === "#" || !href.startsWith("#")) return;
-                const target = document.querySelector(href);
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // закрываем меню если мобильное
-                    if (mobileMenu.classList.contains('open')) closeMenu();
-                }
+        // закрыть меню при клике на кнопку внутри (уже обработано, но на всякий)
+        mobileMenu.querySelectorAll('.nav-btn').forEach(b => {
+            b.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                overlay.classList.remove('show');
             });
         });
 
-        // небольшой хак: изображения внутри .chart-item не кликабельны отдельно (чтобы не открывалась ссылка на картинку)
-        // но вся строка кликабельна, так и задумано.
-        // также блокируем перетаскивание картинок
-        document.querySelectorAll('img').forEach(img => img.setAttribute('draggable', 'false'));
-
-        // ресайз: если окно стало большим, закрываем мобильное меню
+        // ---------- Ресайз: если окно >780 и меню открыто - закрываем (на всякий) ----------
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                closeMenu();
-                blur.style.opacity = '0.5';
-                blur.style.width = '400px';
-                blur.style.height = '400px';
-            } else {
-                blur.style.opacity = '0.2';
-                blur.style.width = '250px';
-                blur.style.height = '250px';
+            if (window.innerWidth > 780) {
+                mobileMenu.classList.remove('open');
+                overlay.classList.remove('show');
             }
         });
 
-        // начальная установка блюра по центру
-        if (window.innerWidth > 768) {
-            blur.style.left = '50%';
-            blur.style.top = '50%';
-        }
+        // доп: если кликнули по ссылке-треку, открывается новая вкладка (уже target _blank)
+        // обложки не кликабельны отдельно — только вся строка.
+        // Все треки уже <a>
 
-        // защита: чтобы не было случайных переходов по картинкам
-        document.querySelectorAll('.chart-cover').forEach(img => {
-            img.addEventListener('click', (e) => e.stopPropagation()); // не мешает ссылке родителя
-        });
+        // небольшая подстройка: подписи "Single" и фиты отображаются корректно.
+        // Для deluxe используем track-feat, как и просили.
     })();
 </script>
-<!-- небольшая доработка для будущих обложек (скрываем рамку у placeholder) -->
-<style>
-    .coming-soon-cover {
-        background: #1e2532;
-        color: #8f9bb3;
-        font-weight: 500;
-        font-family: 'Montserrat', sans-serif;
-        letter-spacing: 1px;
-    }
-    .chart-item:hover .coming-soon-cover {
-        background: #2a3445;
-    }
-    /* гарантируем что картинки внутри ссылок не перехватывают клик */
-    .chart-item img {
-        pointer-events: none;
-    }
-    .social-card i, .social-card span {
-        pointer-events: none;
-    }
-</style>
+
+<!-- небольшая доработка: будущие релизы с плейсхолдерами иконок -->
 </body>
 </html>
