@@ -334,6 +334,20 @@
             margin-left: auto;  /* прижимаем к правому краю */
             white-space: nowrap;
         }
+        /* Soon — такой же овал */
+        .track-soon {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #e0b3ff;
+            background: #2a1e3c;
+            padding: 2px 12px;
+            border-radius: 30px;
+            letter-spacing: 0.3px;
+            border: 0.5px solid #a27bc0;
+            opacity: 0.95;
+            white-space: nowrap;
+        }
         .no-artwork {
             background: #20243e;
             display: flex;
@@ -491,7 +505,7 @@
             .track-title { font-size: 1.1rem; }
             .news-text { font-size: 1.3rem; }
             .news-button { font-size: 1.1rem; padding: 14px 28px; }
-            .track-date { font-size: 0.8rem; padding: 2px 8px; }
+            .track-date, .track-soon { font-size: 0.8rem; padding: 2px 8px; }
         }
         @media screen and (max-width: 480px) {
             .track-row { padding: 10px 12px; gap: 12px; }
@@ -604,7 +618,7 @@
         </div>
     </section>
 
-    <!-- БУДУЩИЕ РЕЛИЗЫ (даты вместо Soon) -->
+    <!-- БУДУЩИЕ РЕЛИЗЫ (даты + Soon) -->
     <section id="upcoming">
         <h2 class="section-title">Будущие релизы</h2>
         <div class="tracklist">
@@ -616,6 +630,7 @@
                     <span class="track-feat">ft. WORLDSAMKA</span>
                     <span class="track-sub-light"> - Single</span>
                     <span class="track-date">17.04.26</span>
+                    <span class="track-soon">Soon</span>
                 </div>
             </a>
             <!-- 2. Project X (Album) -->
@@ -625,6 +640,7 @@
                     <span class="track-title">Project X</span>
                     <span class="track-sub-light"> - Album</span>
                     <span class="track-date">??.??.26</span>
+                    <span class="track-soon">Soon</span>
                 </div>
             </a>
             <!-- 3. Project X (Deluxe Version) -->
@@ -634,6 +650,7 @@
                     <span class="track-title">Project X</span>
                     <span class="track-feat">(Deluxe Version)</span>
                     <span class="track-date">??.??.26</span>
+                    <span class="track-soon">Soon</span>
                 </div>
             </a>
         </div>
