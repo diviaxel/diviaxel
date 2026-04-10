@@ -319,7 +319,6 @@
             color: #c6caff;
             margin-left: 5px;
         }
-        /* deluxe / single индикатор как название, но менее ярко? сделаем как фит */
         .track-sub-light {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 400;
@@ -327,7 +326,19 @@
             color: #a9aed6;
             opacity: 0.8;
         }
-        /* выравнивание в будущих релизах без обложки */
+        .track-soon {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #e0b3ff;
+            background: #2a1e3c;
+            padding: 2px 10px;
+            border-radius: 30px;
+            letter-spacing: 0.3px;
+            margin-left: 8px;
+            border: 0.5px solid #a27bc0;
+            opacity: 0.9;
+        }
         .no-artwork {
             background: #20243e;
             display: flex;
@@ -337,7 +348,7 @@
             font-size: 18px;
         }
 
-        /* --- НОВОСТИ (блок) --- */
+        /* --- НОВОСТИ --- */
         .news-card {
             background: rgba(12, 16, 32, 0.7);
             backdrop-filter: blur(10px);
@@ -345,7 +356,6 @@
             border-radius: 36px;
             padding: 28px 32px;
             box-shadow: 0 20px 30px -8px #00000080;
-            transition: transform 0.2s;
         }
         .news-content {
             display: flex;
@@ -363,7 +373,6 @@
             overflow: hidden;
             border: 1px solid #495085;
             box-shadow: 0 10px 20px #0000004d;
-            transition: 0.2s;
             max-width: 100%;
         }
         .news-banner img {
@@ -391,7 +400,6 @@
             backdrop-filter: blur(4px);
             box-shadow: 0 10px 18px #00000040;
             transition: all 0.2s ease;
-            letter-spacing: 0.5px;
         }
         .news-button:hover {
             transform: scale(1.05);
@@ -400,7 +408,7 @@
             box-shadow: 0 0 22px #5f67b0;
         }
 
-        /* соцсети блок */
+        /* соцсети */
         .social-grid {
             display: flex;
             flex-wrap: wrap;
@@ -422,8 +430,6 @@
             color: white;
             transition: all 0.25s;
             box-shadow: 0 12px 18px -8px black;
-            position: relative;
-            overflow: hidden;
         }
         .social-button:hover {
             transform: scale(1.07);
@@ -445,8 +451,6 @@
             color: #b9bedd;
             opacity: 0.7;
             margin-top: 6px;
-            transition: all 0.2s;
-            letter-spacing: 0.3px;
         }
         .social-button:hover .social-label {
             transform: translateY(-6px);
@@ -481,21 +485,6 @@
             transform: scale(1.04);
         }
 
-        /* текст Soon... */
-        .soon-text {
-            margin-top: 24px;
-            text-align: right;
-            font-size: 1.6rem;
-            font-weight: 400;
-            letter-spacing: 4px;
-            color: #b9bedd;
-            opacity: 0.8;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            text-transform: uppercase;
-            padding-right: 10px;
-        }
-
-        /* адаптив */
         @media screen and (max-width: 780px) {
             .container { padding: 15px 18px; }
             .desktop-nav { display: none; }
@@ -507,7 +496,6 @@
             .track-title { font-size: 1.1rem; }
             .news-text { font-size: 1.3rem; }
             .news-button { font-size: 1.1rem; padding: 14px 28px; }
-            .soon-text { font-size: 1.3rem; }
         }
         @media screen and (max-width: 480px) {
             .track-row { padding: 10px 12px; gap: 12px; }
@@ -525,7 +513,6 @@
 <div class="cursor-blur" id="cursorBlur"></div>
 
 <div class="container">
-    <!-- DESKTOP NAVIGATION -->
     <nav class="desktop-nav">
         <button class="nav-btn" data-section="home">Главная</button>
         <button class="nav-btn" data-section="news">Новости</button>
@@ -534,11 +521,8 @@
         <button class="nav-btn" data-section="social">Соц. сети</button>
     </nav>
 
-    <!-- MOBILE NAVIGATION -->
     <div class="mobile-nav">
-        <div class="menu-icon" id="menuToggle">
-            <i class="fas fa-bars"></i>
-        </div>
+        <div class="menu-icon" id="menuToggle"><i class="fas fa-bars"></i></div>
         <div style="width:40px;"></div>
     </div>
     <div class="menu-overlay" id="menuOverlay"></div>
@@ -550,36 +534,27 @@
         <button class="nav-btn" data-section="social">Соц. сети</button>
     </div>
 
-    <!-- ГЛАВНАЯ / HOME -->
+    <!-- ГЛАВНАЯ -->
     <section id="home">
         <div class="artist-card">
-            <div class="artist-avatar">
-                <img src="https://i.postimg.cc/2bjwpkrv/avyay.png" alt="diviaxel">
-            </div>
+            <div class="artist-avatar"><img src="https://i.postimg.cc/2bjwpkrv/avyay.png" alt="diviaxel"></div>
             <div class="artist-info">
                 <div class="artist-name">diviaxel</div>
-                <div class="artist-desc">
-                    diviaxel – Эмма Розенфельд (родилась 5 мая 2005 года). Музыкальный исполнитель и блогер, пишущий музыку в жанре Rap. Родилась в городе Киев, а проживает в городе Берлин.
-                </div>
+                <div class="artist-desc">diviaxel – Эмма Розенфельд (родилась 5 мая 2005 года). Музыкальный исполнитель и блогер, пишущий музыку в жанре Rap. Родилась в городе Киев, а проживает в городе Берлин.</div>
             </div>
         </div>
     </section>
 
-    <!-- НОВОСТИ (добавленный блок) -->
+    <!-- НОВОСТИ -->
     <section id="news">
         <h2 class="section-title">Новости</h2>
         <div class="news-card">
             <div class="news-content">
-                <div class="news-text">
-                    RIAXA и diviaxel опубликовали совместный клип на совместный трек SLXT.
-                </div>
-                <!-- баннер из ютуб (кликабельный) -->
+                <div class="news-text">RIAXA и diviaxel опубликовали совместный клип на совместный трек SLXT.</div>
                 <a href="https://youtu.be/wvIY6hE2Q_s" target="_blank" class="news-banner">
                     <img src="https://img.youtube.com/vi/wvIY6hE2Q_s/maxresdefault.jpg" alt="Клип SLXT" loading="lazy">
                 </a>
-                <a href="https://youtu.be/wvIY6hE2Q_s" target="_blank" class="news-button">
-                    <i class="fab fa-youtube" style="margin-right: 10px;"></i>Смотреть клип
-                </a>
+                <a href="https://youtu.be/wvIY6hE2Q_s" target="_blank" class="news-button"><i class="fab fa-youtube" style="margin-right: 10px;"></i>Смотреть клип</a>
             </div>
         </div>
     </section>
@@ -588,52 +563,30 @@
     <section id="latest">
         <h2 class="section-title">Последние релизы</h2>
         <div class="tracklist">
-            <!-- 1. SLXT ft. RIAXA -->
             <a href="https://band.link/slxt" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/14LdLFVm/slxt.jpg" alt="slxt"></div>
-                <div class="track-info">
-                    <span class="track-title">SLXT</span>
-                    <span class="track-feat">ft. RIAXA</span>
-                    <span class="track-sub-light">— Single</span>
-                </div>
+                <div class="track-info"><span class="track-title">SLXT</span><span class="track-feat">ft. RIAXA</span><span class="track-sub-light">— Single</span></div>
             </a>
-            <!-- 2. НАХОДКА В РЭПЕ -->
             <a href="https://aetherlab.band.link/nahodkavrap" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/3Wp10cWw/nvr.jpg" alt="nahodka"></div>
-                <div class="track-info">
-                    <span class="track-title">НАХОДКА В РЭПЕ</span>
-                    <span class="track-sub-light">— Single</span>
-                </div>
+                <div class="track-info"><span class="track-title">НАХОДКА В РЭПЕ</span><span class="track-sub-light">— Single</span></div>
             </a>
-            <!-- 3. POWER -->
             <a href="https://aetherlab.band.link/power_di" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/t1Ytqr8N/pvr.jpg" alt="power"></div>
-                <div class="track-info">
-                    <span class="track-title">POWER</span>
-                    <span class="track-sub-light">— Single</span>
-                </div>
+                <div class="track-info"><span class="track-title">POWER</span><span class="track-sub-light">— Single</span></div>
             </a>
-            <!-- 4. MOMMY ft. CashiFly -->
             <a href="https://aetherlab.band.link/fly_mommy_di" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/mhQ3g1p0/mmi.jpg" alt="mommy"></div>
-                <div class="track-info">
-                    <span class="track-title">MOMMY</span>
-                    <span class="track-feat">ft. CashiFly</span>
-                    <span class="track-sub-light">— Single</span>
-                </div>
+                <div class="track-info"><span class="track-title">MOMMY</span><span class="track-feat">ft. CashiFly</span><span class="track-sub-light">— Single</span></div>
             </a>
-            <!-- 5. КУПИДОН -->
             <a href="https://aetherlab.band.link/kupidon_di" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/8FJMQ7rY/kpdn.jpg" alt="kupidon"></div>
-                <div class="track-info">
-                    <span class="track-title">КУПИДОН</span>
-                    <span class="track-sub-light">— Single</span>
-                </div>
+                <div class="track-info"><span class="track-title">КУПИДОН</span><span class="track-sub-light">— Single</span></div>
             </a>
         </div>
     </section>
 
-    <!-- БУДУЩИЕ РЕЛИЗЫ (порядок изменён: 1. S Class, 2. Project X, 3. Project X Deluxe) -->
+    <!-- БУДУЩИЕ РЕЛИЗЫ (порядок изменён: 2↔3, добавлен "Soon...", Project X → Album) -->
     <section id="upcoming">
         <h2 class="section-title">Будущие релизы</h2>
         <div class="tracklist">
@@ -644,75 +597,53 @@
                     <span class="track-title">S Class</span>
                     <span class="track-feat">ft. WORLDSAMKA</span>
                     <span class="track-sub-light">— Single</span>
+                    <span class="track-soon">Soon…</span>
                 </div>
             </a>
-            <!-- 2. Project X (обычный) — был третьим, теперь второй -->
+            <!-- 2. Project X (Album) — теперь второй, ссылка https://lnkfi.re/ProjectX -->
             <a href="https://lnkfi.re/ProjectX" target="_blank" class="track-row">
                 <div class="track-cover no-artwork"><i class="fas fa-hourglass-start"></i></div>
                 <div class="track-info">
                     <span class="track-title">Project X</span>
-                    <span class="track-sub-light">— Single</span>
+                    <span class="track-sub-light">— Album</span>
+                    <span class="track-soon">Soon…</span>
                 </div>
             </a>
-            <!-- 3. Project X (Deluxe Version) — был вторым, теперь третий -->
+            <!-- 3. Project X (Deluxe Version) — теперь третий, ссылка делюкс -->
             <a href="https://lnkfi.re/ProjectX-DeluxeVersion" target="_blank" class="track-row">
                 <div class="track-cover no-artwork"><i class="fas fa-hourglass-half" style="opacity:0.7;"></i></div>
                 <div class="track-info">
                     <span class="track-title">Project X</span>
                     <span class="track-feat">(Deluxe Version)</span>
+                    <span class="track-soon">Soon…</span>
                 </div>
             </a>
         </div>
-        <!-- текст Soon... под треклистом -->
-        <div class="soon-text">Soon...</div>
     </section>
 
     <!-- СОЦ. СЕТИ -->
     <section id="social">
         <h2 class="section-title">Соц. сети</h2>
         <div class="social-grid">
-            <a href="https://t.me/diviaxel" target="_blank" class="social-button">
-                <i class="fab fa-telegram-plane social-icon"></i>
-                <span class="social-label">Telegram</span>
-                <span class="social-url-hint">t.me/diviaxel</span>
-            </a>
-            <a href="https://www.tiktok.com/@diviaxel" target="_blank" class="social-button">
-                <i class="fab fa-tiktok social-icon"></i>
-                <span class="social-label">TikTok</span>
-                <span class="social-url-hint">@diviaxel</span>
-            </a>
-            <a href="https://vk.ru/diviaxel" target="_blank" class="social-button">
-                <i class="fab fa-vk social-icon"></i>
-                <span class="social-label">VK</span>
-                <span class="social-url-hint">vk.ru/diviaxel</span>
-            </a>
-            <a href="https://www.instagram.com/diviaxel" target="_blank" class="social-button">
-                <i class="fab fa-instagram social-icon"></i>
-                <span class="social-label">Instagram</span>
-                <span class="social-url-hint">@diviaxel</span>
-            </a>
+            <a href="https://t.me/diviaxel" target="_blank" class="social-button"><i class="fab fa-telegram-plane social-icon"></i><span class="social-label">Telegram</span><span class="social-url-hint">t.me/diviaxel</span></a>
+            <a href="https://www.tiktok.com/@diviaxel" target="_blank" class="social-button"><i class="fab fa-tiktok social-icon"></i><span class="social-label">TikTok</span><span class="social-url-hint">@diviaxel</span></a>
+            <a href="https://vk.ru/diviaxel" target="_blank" class="social-button"><i class="fab fa-vk social-icon"></i><span class="social-label">VK</span><span class="social-url-hint">vk.ru/diviaxel</span></a>
+            <a href="https://www.instagram.com/diviaxel" target="_blank" class="social-button"><i class="fab fa-instagram social-icon"></i><span class="social-label">Instagram</span><span class="social-url-hint">@diviaxel</span></a>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer-note">
         Сайт был нежно слизан у моей лучшей подруги CashiFly.
-        <div>
-            <a href="https://t.me/CashiFly" target="_blank" class="credit-link">✨ t.me/CashiFly ✨</a>
-        </div>
+        <div><a href="https://t.me/CashiFly" target="_blank" class="credit-link">✨ t.me/CashiFly ✨</a></div>
     </footer>
 </div>
 
 <script>
     (function(){
-        "use strict";
-
-        // ---------- Розовый блюрный шарик за курсором ----------
         const blurBall = document.getElementById('cursorBlur');
         let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
         let currentX = mouseX, currentY = mouseY;
         const speed = 0.08;
-
         function animateBlur() {
             currentX += (mouseX - currentX) * speed;
             currentY += (mouseY - currentY) * speed;
@@ -721,13 +652,8 @@
             requestAnimationFrame(animateBlur);
         }
         animateBlur();
+        window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
 
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        // ---------- Плавный скролл по навигации ----------
         const sections = {
             home: document.getElementById('home'),
             news: document.getElementById('news'),
@@ -735,53 +661,23 @@
             upcoming: document.getElementById('upcoming'),
             social: document.getElementById('social')
         };
-
-        function scrollToSection(id) {
-            const el = sections[id];
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        const navButtons = document.querySelectorAll('.nav-btn');
-        navButtons.forEach(btn => {
+        function scrollToSection(id) { const el = sections[id]; if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const section = btn.getAttribute('data-section');
-                if (section) scrollToSection(section);
-                // закрываем мобильное меню
+                if(section) scrollToSection(section);
                 mobileMenu.classList.remove('open');
                 overlay.classList.remove('show');
             });
         });
 
-        // ---------- Mobile menu ----------
         const menuToggle = document.getElementById('menuToggle');
         const mobileMenu = document.getElementById('mobileMenu');
         const overlay = document.getElementById('menuOverlay');
-
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
-            overlay.classList.toggle('show');
-        });
-        overlay.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            overlay.classList.remove('show');
-        });
-
-        mobileMenu.querySelectorAll('.nav-btn').forEach(b => {
-            b.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                overlay.classList.remove('show');
-            });
-        });
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 780) {
-                mobileMenu.classList.remove('open');
-                overlay.classList.remove('show');
-            }
-        });
-
+        menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('open'); overlay.classList.toggle('show'); });
+        overlay.addEventListener('click', () => { mobileMenu.classList.remove('open'); overlay.classList.remove('show'); });
+        mobileMenu.querySelectorAll('.nav-btn').forEach(b => b.addEventListener('click', () => { mobileMenu.classList.remove('open'); overlay.classList.remove('show'); }));
+        window.addEventListener('resize', () => { if(window.innerWidth > 780) { mobileMenu.classList.remove('open'); overlay.classList.remove('show'); } });
     })();
 </script>
 </body>
