@@ -1,663 +1,674 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>diviaxel · official</title>
-  <!-- Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>diviaxel · official</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      /* более мягкий градиент */
-      background: linear-gradient(145deg, #fff9f5 0%, #f0eae3 100%);
-      min-height: 100vh;
-      color: #1e1e1e;
-      line-height: 1.5;
-      position: relative;
-      /* узор — нежная текстура */
-      background-image: 
-        repeating-linear-gradient(45deg, rgba(210, 190, 180, 0.06) 0px, rgba(210, 190, 180, 0.06) 2px, 
-          transparent 2px, transparent 8px),
-        linear-gradient(145deg, #fff9f5 0%, #f0eae3 100%);
-      background-blend-mode: overlay;
-      padding-bottom: 2rem;
-      cursor: none; /* скрываем стандартный курсор, т.к. будет своя точка */
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fce4ec 0%, #fff0f3 25%, #f8d5da 50%, #f9e6e9 75%, #e9e0e3 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #1e1e2a;
+            position: relative;
+            padding-bottom: 2rem;
+        }
 
-    /* ----- розовая точка за курсором ----- */
-    .cursor-dot {
-      position: fixed;
-      width: 22px;
-      height: 22px;
-      background: rgba(255, 150, 180, 0.35);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: multiply;
-      backdrop-filter: blur(2px);
-      border: 1px solid rgba(255, 220, 230, 0.5);
-      box-shadow: 0 0 20px rgba(255, 140, 180, 0.3);
-      transform: translate(-50%, -50%);
-      transition: width 0.15s, height 0.15s, background 0.15s;
-    }
+        /* узор на фоне (тонкие полупрозрачные линии/сетка) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                repeating-linear-gradient(45deg, rgba(220,180,190,0.08) 0px, rgba(220,180,190,0.08) 2px, transparent 2px, transparent 8px),
+                repeating-linear-gradient(135deg, rgba(200,160,170,0.05) 0px, rgba(200,160,170,0.05) 1px, transparent 1px, transparent 6px);
+            pointer-events: none;
+            z-index: 0;
+        }
 
-    /* плавный скролл */
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 90px;
-    }
+        /* розовый блюрный шарик, следующий за курсором */
+        .cursor-glow {
+            position: fixed;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(255,200,210,0.25) 0%, rgba(255,180,200,0.1) 60%, transparent 90%);
+            border-radius: 50%;
+            filter: blur(45px);
+            pointer-events: none;
+            z-index: 5;
+            transition: transform 0.08s linear;
+            will-change: left, top;
+            opacity: 0.7;
+            mix-blend-mode: soft-light;
+        }
 
-    /* ----- анимация появления (fade-in) ----- */
-    @keyframes fadeUp {
-      0% { opacity: 0; transform: translateY(18px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
 
-    .fade-section {
-      opacity: 0;
-      animation: fadeUp 0.7s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
-    }
+        /* ----- header / навигация ----- */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0.5rem 0 1.8rem;
+            position: relative;
+        }
 
-    .hero { animation-delay: 0.1s; }
-    #latest { animation-delay: 0.15s; }
-    .tracklist { animation-delay: 0.2s; }
-    #upcoming { animation-delay: 0.25s; }
-    #social { animation-delay: 0.3s; }
+        /* бургер (мобильная версия) */
+        .burger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 100;
+            margin-right: 20px;
+        }
+        .burger span {
+            width: 100%;
+            height: 2.5px;
+            background: #2e2e3a;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: #2b1e24;
+        }
 
-    /* ----- КНОПКИ НАВИГАЦИИ ----- */
-    .nav-bar {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.8rem 1.5rem;
-      padding: 1.2rem 1.5rem;
-      background: rgba(255, 250, 245, 0.65);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(220, 190, 180, 0.15);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
+        .nav-links {
+            display: flex;
+            gap: 2.8rem;
+            list-style: none;
+        }
 
-    .nav-btn {
-      display: inline-block;
-      padding: 0.7rem 1.6rem;
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(230, 200, 190, 0.2);
-      border-radius: 14px;
-      font-weight: 500;
-      font-size: 1rem;
-      letter-spacing: 0.02em;
-      color: #2a201e;
-      text-decoration: none;
-      box-shadow: 0 4px 10px -4px rgba(180, 130, 120, 0.1);
-      backdrop-filter: blur(4px);
-      transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
-    }
+        .nav-links li a {
+            text-decoration: none;
+            font-weight: 550;
+            font-size: 1.2rem;
+            letter-spacing: -0.01em;
+            color: #231b1f;
+            padding: 0.5rem 0.2rem;
+            transition: all 0.2s;
+            border-radius: 12px;
+        }
 
-    .nav-btn:hover {
-      transform: scale(1.07);
-      background: #fffffffa;
-      box-shadow: 0 14px 24px -10px rgba(200, 120, 140, 0.2), 0 0 0 1px rgba(255, 220, 220, 0.6);
-      color: #1a1010;
-      border-color: transparent;
-    }
+        /* кнопки в меню — квадратные с лёгким скруглением, анимация */
+        .nav-links li a, .social-button, .release-text-link {
+            display: inline-block;
+            background: transparent;
+            border-radius: 12px;
+            transition: transform 0.2s ease, background 0.2s, box-shadow 0.2s, color 0.2s;
+        }
 
-    /* основной контейнер */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 1rem 2rem 3rem;
-    }
+        .nav-links li a:hover {
+            transform: scale(1.08);
+            background: rgba(255, 240, 245, 0.7);
+            box-shadow: 0 6px 14px rgba(210, 140, 160, 0.15);
+            color: #a5325c;
+        }
 
-    /* ----- ГЛАВНАЯ ----- */
-    .hero {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 2.5rem 3rem;
-      margin: 2rem 0 3.5rem;
-      scroll-margin-top: 100px;
-    }
+        /* mobile menu overlay */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 75%;
+            max-width: 300px;
+            height: 100vh;
+            background: rgba(255, 245, 248, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 4px 0 25px rgba(160, 100, 120, 0.2);
+            z-index: 99;
+            padding: 5rem 1.5rem;
+            flex-direction: column;
+            gap: 2rem;
+            border-radius: 0 24px 24px 0;
+        }
+        .mobile-menu a {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #2c1a22;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 18px;
+            transition: 0.15s;
+        }
+        .mobile-menu a:hover {
+            background: #ffe4ec;
+            transform: scale(1.02);
+        }
 
-    .hero-text {
-      flex: 2 1 280px;
-    }
+        /* ----- общие стили секций ----- */
+        section {
+            margin-bottom: 4.5rem;
+        }
 
-    .artist-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 5.4rem;
-      font-weight: 400;
-      letter-spacing: -0.01em;
-      line-height: 1.1;
-      margin-bottom: 1.2rem;
-      color: #241a18;
-      text-shadow: 2px 2px 0 rgba(255, 245, 240, 0.8);
-    }
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 450;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            border-left: 6px solid #cf8a9e;
+            padding-left: 1.2rem;
+            color: #1e1519;
+        }
 
-    .artist-desc {
-      font-size: 1.25rem;
-      font-weight: 400;
-      color: #302824;
-      max-width: 520px;
-      background: rgba(255, 245, 240, 0.4);
-      padding: 0.9rem 1.6rem;
-      border-radius: 40px;
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 240, 235, 0.5);
-      box-shadow: 0 10px 20px -10px rgba(150, 100, 90, 0.1);
-    }
+        /* ----- главная (hero) ----- */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        .hero-text {
+            flex: 2 1 300px;
+        }
+        .artist-name {
+            font-size: 5.5rem;
+            font-weight: 650;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            color: #1f141a;
+        }
+        .artist-desc {
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: #382b31;
+            max-width: 550px;
+            font-weight: 380;
+        }
+        .hero-avatar {
+            flex: 0 0 220px;
+            text-align: center;
+        }
+        .hero-avatar img {
+            width: 100%;
+            max-width: 260px;
+            border-radius: 32px;
+            box-shadow: 0 18px 30px -8px rgba(150, 80, 100, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
 
-    .hero-photo {
-      flex: 0 0 220px;
-      text-align: center;
-    }
+        /* ----- релизы: треклист как в Apple Music ----- */
+        .release-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
 
-    .hero-photo img {
-      width: 100%;
-      max-width: 240px;
-      height: auto;
-      border-radius: 38px;
-      box-shadow: 20px 20px 30px -8px rgba(130, 80, 70, 0.08), 0 0 0 1px rgba(255, 245, 240, 0.8);
-      transition: transform 0.4s;
-    }
+        .release-item {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            background: rgba(255, 250, 252, 0.4);
+            backdrop-filter: blur(4px);
+            padding: 0.7rem 1.2rem;
+            border-radius: 18px;
+            transition: background 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .release-item:hover {
+            background: rgba(255, 240, 245, 0.7);
+        }
 
-    .hero-photo img:hover {
-      transform: scale(1.02);
-    }
+        .release-cover {
+            width: 58px;
+            height: 58px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            flex-shrink: 0;
+            background: #d9c3ca;
+        }
 
-    /* ----- ЗАГОЛОВКИ ----- */
-    .section-title {
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      font-size: 2.5rem;
-      letter-spacing: -0.02em;
-      margin: 2.8rem 0 1.8rem;
-      padding-bottom: 0.6rem;
-      border-bottom: 2px solid rgba(200, 160, 150, 0.15);
-      display: inline-block;
-      scroll-margin-top: 90px;
-      color: #2e2220;
-    }
+        .release-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-    /* ----- ТРЕКЛИСТ (apple music style) ----- */
-    .tracklist {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      background: rgba(255, 250, 245, 0.5);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 1.4rem 1.4rem;
-      border-radius: 32px;
-      box-shadow: 0 12px 28px -12px rgba(160, 110, 100, 0.1);
-      border: 1px solid rgba(255, 245, 240, 0.7);
-    }
+        .release-text-link {
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+            border-radius: 10px;
+            padding: 4px 8px;
+            margin: -4px -8px;
+            transition: all 0.2s;
+        }
+        .release-text-link:hover {
+            transform: scale(1.02);
+            background: rgba(255, 220, 230, 0.5);
+            box-shadow: 0 2px 10px rgba(190, 120, 140, 0.2);
+        }
 
-    .track-row {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      padding: 0.8rem 1.2rem;
-      border-radius: 22px;
-      transition: all 0.25s ease;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      border-bottom: 1px solid rgba(200, 160, 150, 0.08);
-      background: transparent;
-    }
+        .track-title {
+            font-size: 1.25rem;
+            font-weight: 560;
+            letter-spacing: -0.01em;
+            color: #1e1218;
+        }
 
-    .track-row:last-of-type {
-      border-bottom: none;
-    }
+        .track-feat {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 380;
+            font-size: 0.95rem;
+            color: rgba(70, 50, 60, 0.7);
+            margin-left: 2px;
+        }
 
-    .track-row:hover {
-      background: rgba(255, 245, 240, 0.7);
-      transform: scale(1.005) translateY(-1px);
-      box-shadow: 0 8px 14px -8px rgba(160, 110, 100, 0.15);
-    }
+        /* для deluxe версии — тоже серым */
+        .track-sub {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: rgba(70, 50, 60, 0.6);
+            margin-left: 4px;
+        }
 
-    /* обложка */
-    .track-cover {
-      flex-shrink: 0;
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 8px 14px rgba(130, 80, 70, 0.1);
-      transition: all 0.3s;
-    }
+        /* placeholder для отсутствующей обложки */
+        .cover-placeholder {
+            width: 58px;
+            height: 58px;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #dcc4cd, #e7d4db);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: #553b44;
+            text-align: center;
+            padding: 4px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+            border: 1px dashed #b2909d;
+        }
 
-    .track-cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.4s;
-    }
+        /* ----- соцсети: закруглённые квадратные кнопки ----- */
+        .social-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
 
-    .track-row:hover .track-cover {
-      box-shadow: 0 12px 20px -8px rgba(180, 100, 120, 0.25);
-    }
+        .social-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 250, 252, 0.5);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 240, 245, 0.8);
+            padding: 1.2rem 2rem;
+            min-width: 150px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #1e1218;
+            transition: all 0.25s;
+            box-shadow: 0 8px 12px -4px rgba(170, 120, 140, 0.1);
+            position: relative;
+            cursor: pointer;
+        }
 
-    .track-row:hover .track-cover img {
-      transform: scale(1.04);
-    }
+        .social-button:hover {
+            transform: scale(1.05);
+            background: rgba(255, 235, 240, 0.9);
+            box-shadow: 0 14px 20px -6px rgba(180, 110, 130, 0.25);
+        }
 
-    /* информация трека */
-    .track-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+        .social-name {
+            font-size: 1.4rem;
+            font-weight: 500;
+            transition: transform 0.2s;
+            margin-bottom: 4px;
+        }
+        .social-button:hover .social-name {
+            transform: translateY(-6px);
+        }
 
-    .track-title {
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: 1.3rem;
-      letter-spacing: -0.01em;
-      color: #1f1512;
-      line-height: 1.3;
-    }
+        .social-url-hint {
+            font-size: 0.75rem;
+            color: rgba(60, 40, 50, 0.5);
+            font-family: monospace;
+            letter-spacing: 0.3px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            margin-top: -6px;
+        }
+        .social-button:hover .social-url-hint {
+            opacity: 1;
+        }
 
-    .track-feat {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-weight: 400;
-      font-size: 0.95rem;
-      color: rgba(100, 70, 65, 0.7);
-      margin-top: 0.15rem;
-      letter-spacing: 0.01em;
-    }
+        .social-button i {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            color: #5f3e4b;
+        }
 
-    .track-index {
-      font-family: 'Inter', sans-serif;
-      font-weight: 400;
-      font-size: 1.25rem;
-      color: #7a6a65;
-      min-width: 2.2rem;
-      text-align: right;
-      opacity: 0.8;
-    }
+        /* футер */
+        .footer {
+            margin-top: 4rem;
+            text-align: center;
+            color: #4a3840;
+            font-size: 1rem;
+            border-top: 1px solid rgba(170, 130, 140, 0.2);
+            padding-top: 2.5rem;
+        }
+        .footer a {
+            color: #9e5f78;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted;
+        }
+        .footer a:hover {
+            color: #b33f6b;
+        }
+        .footer-small {
+            margin-top: 0.6rem;
+            font-size: 0.9rem;
+        }
 
-    /* ----- СОЦСЕТИ (особые) ----- */
-    .social-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem 2.8rem;
-      margin-top: 1.5rem;
-      margin-bottom: 2rem;
-    }
+        /* адаптивность */
+        @media (max-width: 700px) {
+            .container { padding: 1rem 1.2rem; }
+            .navbar { justify-content: space-between; }
+            .burger { display: flex; }
+            .nav-links { display: none; }
+            h2 { font-size: 2rem; }
+            .artist-name { font-size: 3.8rem; }
+            .hero { flex-direction: column-reverse; align-items: flex-start; }
+            .hero-avatar { align-self: center; }
+            .release-item { padding: 0.6rem 0.8rem; }
+            .track-title { font-size: 1.1rem; }
+            .social-button { min-width: 130px; padding: 1rem 1.2rem; }
+            .social-name { font-size: 1.2rem; }
+        }
 
-    .social-item {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      text-decoration: none;
-      color: #241a18;
-      transition: all 0.2s;
-      padding: 0.3rem 0;
-    }
+        @media (max-width: 480px) {
+            .release-cover { width: 48px; height: 48px; }
+            .cover-placeholder { width: 48px; height: 48px; font-size: 0.55rem; }
+        }
 
-    .social-top {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      transition: transform 0.25s ease;
-    }
-
-    .social-item i {
-      font-size: 2.4rem;
-      width: 2.4rem;
-      color: #2f201d;
-      filter: drop-shadow(0 2px 4px rgba(190, 130, 140, 0.15));
-      transition: transform 0.2s;
-    }
-
-    .social-name {
-      font-weight: 550;
-      font-size: 1.6rem;
-      letter-spacing: -0.01em;
-    }
-
-    .social-url {
-      position: absolute;
-      bottom: -0.3rem;
-      left: 3.4rem;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
-      color: rgba(130, 90, 100, 0.5);
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.25s, transform 0.25s;
-      white-space: nowrap;
-      pointer-events: none;
-      font-weight: 400;
-    }
-
-    .social-item:hover .social-top {
-      transform: translateY(-7px);
-    }
-
-    .social-item:hover i {
-      transform: scale(1.05);
-    }
-
-    .social-item:hover .social-url {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* адаптивность */
-    @media (max-width: 680px) {
-      .container { padding: 0.5rem 1.2rem 2rem; }
-      .nav-bar { padding: 0.9rem 0.8rem; }
-      .nav-btn { padding: 0.5rem 1.1rem; font-size: 0.9rem; }
-      .artist-name { font-size: 3.8rem; }
-      .hero { gap: 1.5rem; }
-      .hero-photo { flex-basis: 160px; }
-      .section-title { font-size: 2rem; }
-      .track-title { font-size: 1.15rem; }
-      .track-cover { width: 52px; height: 52px; }
-      .track-index { font-size: 1.1rem; }
-      .social-name { font-size: 1.4rem; }
-      .social-item i { font-size: 2rem; }
-    }
-
-    @media (max-width: 420px) {
-      .track-row { padding: 0.7rem 0.6rem; }
-      .track-title { font-size: 1rem; }
-      .artist-name { font-size: 3.2rem; }
-    }
-
-    /* фишки: свечение при наведении на обложку + */
-    .glow-text {
-      transition: text-shadow 0.3s;
-    }
-
-    /* небольшая подпись */
-    .footer-note {
-      margin-top: 3rem;
-      font-size: 0.85rem;
-      opacity: 0.45;
-      text-align: center;
-      border-top: 1px dashed rgba(170, 130, 120, 0.2);
-      padding-top: 2rem;
-    }
-
-    /* точка на телефоне можно уменьшить */
-    @media (max-width: 768px) {
-      body { cursor: auto; }
-      .cursor-dot { display: none; } /* на мобиле не нужна */
-    }
-  </style>
+        /* утилиты */
+        .text-center { text-align: center; }
+    </style>
 </head>
 <body>
 
-<!-- розовая точка (будет двигаться за мышью) -->
-<div class="cursor-dot" id="cursorDot"></div>
+<!-- розовый шарик -->
+<div class="cursor-glow" id="cursorGlow"></div>
 
-<!-- НАВИГАЦИЯ -->
-<div class="nav-bar">
-  <a href="#home" class="nav-btn">Главная</a>
-  <a href="#latest" class="nav-btn">Последние релизы</a>
-  <a href="#upcoming" class="nav-btn">Будущие релизы</a>
-  <a href="#social" class="nav-btn">Соц. сети</a>
+<div class="container">
+    <!-- навигация -->
+    <nav class="navbar">
+        <button class="burger" id="burgerBtn" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="desktopNav">
+            <li><a href="#home">Главная</a></li>
+            <li><a href="#latest">Последние релизы</a></li>
+            <li><a href="#upcoming">Будущие релизы</a></li>
+            <li><a href="#social">Соц. сети</a></li>
+        </ul>
+    </nav>
+
+    <!-- мобильное меню -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home">Главная</a>
+        <a href="#latest">Последние релизы</a>
+        <a href="#upcoming">Будущие релизы</a>
+        <a href="#social">Соц. сети</a>
+    </div>
+
+    <!-- Главная -->
+    <section id="home">
+        <div class="hero">
+            <div class="hero-text">
+                <div class="artist-name">diviaxel</div>
+                <div class="artist-desc">
+                    Эмма Розенфельд (родилась 5 мая 2005 года). Музыкальный исполнитель и блогер, пишущий музыку в жанре Rap. Родилась в Киеве, проживает в Берлине.
+                </div>
+            </div>
+            <div class="hero-avatar">
+                <img src="https://i.postimg.cc/2bjwpkrv/avyay.png" alt="diviaxel">
+            </div>
+        </div>
+    </section>
+
+    <!-- Последние релизы -->
+    <section id="latest">
+        <h2>Последние релизы</h2>
+        <div class="release-list">
+            <!-- 1. SLXT ft. RIAXA -->
+            <div class="release-item">
+                <img class="release-cover" src="https://i.postimg.cc/14LdLFVm/slxt.jpg" alt="SLXT" loading="lazy">
+                <div class="release-info">
+                    <a href="https://band.link/slxt" target="_blank" class="release-text-link">
+                        <span class="track-title">SLXT</span>
+                        <span class="track-feat">ft. RIAXA</span>
+                    </a>
+                </div>
+            </div>
+            <!-- 2. НАХОДКА В РЭПЕ -->
+            <div class="release-item">
+                <img class="release-cover" src="https://i.postimg.cc/3Wp10cWw/nvr.jpg" alt="НАХОДКА В РЭПЕ" loading="lazy">
+                <div class="release-info">
+                    <a href="https://aetherlab.band.link/nahodkavrap" target="_blank" class="release-text-link">
+                        <span class="track-title">НАХОДКА В РЭПЕ</span>
+                    </a>
+                </div>
+            </div>
+            <!-- 3. POWER -->
+            <div class="release-item">
+                <img class="release-cover" src="https://i.postimg.cc/t1Ytqr8N/pvr.jpg" alt="POWER" loading="lazy">
+                <div class="release-info">
+                    <a href="https://aetherlab.band.link/power_di" target="_blank" class="release-text-link">
+                        <span class="track-title">POWER</span>
+                    </a>
+                </div>
+            </div>
+            <!-- 4. MOMMY ft. CashiFly -->
+            <div class="release-item">
+                <img class="release-cover" src="https://i.postimg.cc/mhQ3g1p0/mmi.jpg" alt="MOMMY" loading="lazy">
+                <div class="release-info">
+                    <a href="https://aetherlab.band.link/fly_mommy_di" target="_blank" class="release-text-link">
+                        <span class="track-title">MOMMY</span>
+                        <span class="track-feat">ft. CashiFly</span>
+                    </a>
+                </div>
+            </div>
+            <!-- 5. КУПИДОН -->
+            <div class="release-item">
+                <img class="release-cover" src="https://i.postimg.cc/8FJMQ7rY/kpdn.jpg" alt="КУПИДОН" loading="lazy">
+                <div class="release-info">
+                    <a href="https://aetherlab.band.link/kupidon_di" target="_blank" class="release-text-link">
+                        <span class="track-title">КУПИДОН</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Будущие релизы -->
+    <section id="upcoming">
+        <h2>Будущие релизы</h2>
+        <div class="release-list">
+            <!-- 1. S Class ft. WORLDSAMKA -->
+            <div class="release-item">
+                <img class="release-cover" src="https://i.postimg.cc/kD9s8ySt/IMG-6963-2.png" alt="S Class" loading="lazy">
+                <div class="release-info">
+                    <a href="https://aetherlab.band.link/di_sclass_ws" target="_blank" class="release-text-link">
+                        <span class="track-title">S Class</span>
+                        <span class="track-feat">ft. WORLDSAMKA</span>
+                    </a>
+                </div>
+            </div>
+            <!-- 2. Project X (Deluxe Version) — обложки ещё нет -->
+            <div class="release-item">
+                <div class="cover-placeholder">обложка скоро</div>
+                <div class="release-info">
+                    <a href="https://lnkfi.re/ProjectX-DeluxeVersion" target="_blank" class="release-text-link">
+                        <span class="track-title">Project X</span>
+                        <span class="track-sub">(Deluxe Version)</span>
+                    </a>
+                </div>
+            </div>
+            <!-- 3. Project X -->
+            <div class="release-item">
+                <div class="cover-placeholder">обложка скоро</div>
+                <div class="release-info">
+                    <a href="https://lnkfi.re/ProjectX" target="_blank" class="release-text-link">
+                        <span class="track-title">Project X</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Соц. сети -->
+    <section id="social">
+        <h2>Соц. сети</h2>
+        <div class="social-grid">
+            <a href="https://t.me/diviaxel" target="_blank" class="social-button">
+                <i class="fab fa-telegram-plane"></i>
+                <span class="social-name">Telegram</span>
+                <span class="social-url-hint">t.me/diviaxel</span>
+            </a>
+            <a href="https://www.tiktok.com/@diviaxel" target="_blank" class="social-button">
+                <i class="fab fa-tiktok"></i>
+                <span class="social-name">TikTok</span>
+                <span class="social-url-hint">@diviaxel</span>
+            </a>
+            <a href="https://vk.ru/diviaxel" target="_blank" class="social-button">
+                <i class="fab fa-vk"></i>
+                <span class="social-name">VK</span>
+                <span class="social-url-hint">vk.ru/diviaxel</span>
+            </a>
+            <a href="https://www.instagram.com/diviaxel" target="_blank" class="social-button">
+                <i class="fab fa-instagram"></i>
+                <span class="social-name">Instagram</span>
+                <span class="social-url-hint">@diviaxel</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div>💿 Сайт был нежно слизан у моей лучшей подруги CashiFly.</div>
+        <div class="footer-small">
+            <a href="https://t.me/CashiFly" target="_blank">t.me/CashiFly</a>
+        </div>
+        <div style="margin-top: 1.2rem; opacity: 0.6; font-size: 0.8rem;">© diviaxel · 2025</div>
+    </footer>
 </div>
 
-<main class="container">
-  <!-- ГЛАВНАЯ -->
-  <section id="home" class="hero fade-section">
-    <div class="hero-text">
-      <div class="artist-name">diviaxel</div>
-      <div class="artist-desc">
-        diviaxel – Эмма Розенфельд (родилась 5 мая 2005 года). Музыкальный исполнитель и блогер, пишущий музыку в жанре Rap. Родилась в Киеве, проживает в Берлине.
-      </div>
-    </div>
-    <div class="hero-photo">
-      <a href='https://postimg.cc/2bjwpkrv' target='_blank'><img src='https://i.postimg.cc/2bjwpkrv/avyay.png' alt='diviaxel' referrerpolicy="no-referrer"></a>
-    </div>
-  </section>
-
-  <!-- ПОСЛЕДНИЕ РЕЛИЗЫ -->
-  <h2 id="latest" class="section-title fade-section">Последние релизы</h2>
-  <div class="tracklist fade-section">
-    <!-- 1. SLXT ft. RIAXA -->
-    <a href="https://band.link/slxt" target="_blank" class="track-row">
-      <span class="track-index">1</span>
-      <div class="track-cover">
-        <img src="https://i.postimg.cc/14LdLFVm/slxt.jpg" alt="SLXT" loading="lazy" referrerpolicy="no-referrer">
-      </div>
-      <div class="track-info">
-        <div class="track-title">SLXT</div>
-        <div class="track-feat">ft. RIAXA</div>
-      </div>
-    </a>
-    <!-- 2. НАХОДКА В РЭПЕ -->
-    <a href="https://aetherlab.band.link/nahodkavrap" target="_blank" class="track-row">
-      <span class="track-index">2</span>
-      <div class="track-cover">
-        <img src="https://i.postimg.cc/3Wp10cWw/nvr.jpg" alt="НАХОДКА В РЭПЕ" loading="lazy" referrerpolicy="no-referrer">
-      </div>
-      <div class="track-info">
-        <div class="track-title">НАХОДКА В РЭПЕ</div>
-        <div class="track-feat">— Single</div>
-      </div>
-    </a>
-    <!-- 3. POWER -->
-    <a href="https://aetherlab.band.link/power_di" target="_blank" class="track-row">
-      <span class="track-index">3</span>
-      <div class="track-cover">
-        <img src="https://i.postimg.cc/t1Ytqr8N/pvr.jpg" alt="POWER" loading="lazy" referrerpolicy="no-referrer">
-      </div>
-      <div class="track-info">
-        <div class="track-title">POWER</div>
-        <div class="track-feat">— Single</div>
-      </div>
-    </a>
-    <!-- 4. MOMMY ft. CashiFly -->
-    <a href="https://aetherlab.band.link/fly_mommy_di" target="_blank" class="track-row">
-      <span class="track-index">4</span>
-      <div class="track-cover">
-        <img src="https://i.postimg.cc/mhQ3g1p0/mmi.jpg" alt="MOMMY" loading="lazy" referrerpolicy="no-referrer">
-      </div>
-      <div class="track-info">
-        <div class="track-title">MOMMY</div>
-        <div class="track-feat">ft. CashiFly</div>
-      </div>
-    </a>
-    <!-- 5. КУПИДОН -->
-    <a href="https://aetherlab.band.link/kupidon_di" target="_blank" class="track-row">
-      <span class="track-index">5</span>
-      <div class="track-cover">
-        <img src="https://i.postimg.cc/8FJMQ7rY/kpdn.jpg" alt="КУПИДОН" loading="lazy" referrerpolicy="no-referrer">
-      </div>
-      <div class="track-info">
-        <div class="track-title">КУПИДОН</div>
-        <div class="track-feat">— Single</div>
-      </div>
-    </a>
-  </div>
-  <div style="margin-top: 0.6rem; font-size: 0.9rem; color: #5e4a44; opacity: 0.7;">※ клик по строке — переход на платформу</div>
-
-  <!-- БУДУЩИЕ РЕЛИЗЫ (исправлены изображения, добавлен referrerpolicy) -->
-  <h2 id="upcoming" class="section-title fade-section">Будущие релизы</h2>
-  <div class="tracklist fade-section">
-    <!-- 1. S Class ft. WORLDSAMKA -->
-    <a href="https://aetherlab.band.link/di_sclass_ws" target="_blank" class="track-row">
-      <span class="track-index">1</span>
-      <div class="track-cover">
-        <img src="https://i.postimg.cc/kD9s8ySt/IMG-6963-(2).png" alt="S Class" loading="lazy" referrerpolicy="no-referrer">
-      </div>
-      <div class="track-info">
-        <div class="track-title">S Class</div>
-        <div class="track-feat">ft. WORLDSAMKA</div>
-      </div>
-    </a>
-    <!-- 2. Project X (Deluxe Version) - исправлена ссылка на изображение (используем ту же) -->
-    <a href="https://aetherlab.band.link/dvxl_projectx_dlxvrs" target="_blank" class="track-row">
-      <span class="track-index">2</span>
-      <div class="track-cover">
-        <img src="https://i.postimg.cc/LnxxmZnk/IMG-6866.jpg" alt="Project X Deluxe" loading="lazy" referrerpolicy="no-referrer">
-      </div>
-      <div class="track-info">
-        <div class="track-title">Project X</div>
-        <div class="track-feat">Deluxe Version</div>
-      </div>
-    </a>
-    <!-- 3. Project X -->
-    <a href="https://aetherlab.band.link/dvxl_projectx" target="_blank" class="track-row">
-      <span class="track-index">3</span>
-      <div class="track-cover">
-        <img src="https://i.postimg.cc/c6N9hSpd/IMG-6865.jpg" alt="Project X" loading="lazy" referrerpolicy="no-referrer">
-      </div>
-      <div class="track-info">
-        <div class="track-title">Project X</div>
-        <div class="track-feat">— Single</div>
-      </div>
-    </a>
-  </div>
-  <div style="margin-top: 0.6rem; font-size: 0.9rem; color: #5e4a44; opacity: 0.7;">клик по строке — предзаказ / ссылка</div>
-
-  <!-- СОЦ. СЕТИ -->
-  <h2 id="social" class="section-title fade-section">Соц. сети</h2>
-  <div class="social-grid fade-section">
-    <a href="https://t.me/diviaxel" target="_blank" class="social-item">
-      <div class="social-top">
-        <i class="fab fa-telegram-plane"></i>
-        <span class="social-name">Telegram</span>
-      </div>
-      <span class="social-url">t.me/diviaxel</span>
-    </a>
-    <a href="https://www.tiktok.com/@diviaxel" target="_blank" class="social-item">
-      <div class="social-top">
-        <i class="fab fa-tiktok"></i>
-        <span class="social-name">TikTok</span>
-      </div>
-      <span class="social-url">@diviaxel</span>
-    </a>
-    <a href="https://vk.ru/diviaxel" target="_blank" class="social-item">
-      <div class="social-top">
-        <i class="fab fa-vk"></i>
-        <span class="social-name">VK</span>
-      </div>
-      <span class="social-url">vk.ru/diviaxel</span>
-    </a>
-    <a href="https://www.instagram.com/diviaxel" target="_blank" class="social-item">
-      <div class="social-top">
-        <i class="fab fa-instagram"></i>
-        <span class="social-name">Instagram</span>
-      </div>
-      <span class="social-url">@diviaxel</span>
-    </a>
-  </div>
-
-  <div class="footer-note">
-    diviaxel · official page · все ссылки ведут на внешние платформы
-  </div>
-</main>
-
-<!-- скрипты: плавный скролл, точка за курсором + анимация появления при скролле -->
 <script>
-  (function() {
-    // плавный скролл для якорей
-    const navLinks = document.querySelectorAll('.nav-btn');
-    navLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        const hash = this.getAttribute('href');
-        if (hash && hash.startsWith('#')) {
-          e.preventDefault();
-          const target = document.querySelector(hash);
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-          }
+    (function(){
+        // --- розовый шарик за мышью ---
+        const glow = document.getElementById('cursorGlow');
+        if (glow && window.innerWidth > 700) { // на мобильных отключаем для экономии
+            let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+            let currentX = mouseX, currentY = mouseY;
+            const speed = 0.08;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            
+            function animateGlow() {
+                currentX += (mouseX - currentX) * speed;
+                currentY += (mouseY - currentY) * speed;
+                glow.style.left = (currentX - 140) + 'px';
+                glow.style.top = (currentY - 140) + 'px';
+                requestAnimationFrame(animateGlow);
+            }
+            animateGlow();
+        } else if (glow) {
+            glow.style.opacity = '0.3';
+            glow.style.left = '50%';
+            glow.style.top = '40%';
         }
-      });
-    });
 
-    // ---- розовая точка за курсором (плавное следование) ----
-    const dot = document.getElementById('cursorDot');
-    if (dot && window.innerWidth > 768) {
-      let mouseX = window.innerWidth / 2;
-      let mouseY = window.innerHeight / 2;
-      let dotX = mouseX, dotY = mouseY;
-      const speed = 0.12;
-
-      function animateDot() {
-        const distX = mouseX - dotX;
-        const distY = mouseY - dotY;
-        dotX += distX * speed;
-        dotY += distY * speed;
-        dot.style.left = dotX + 'px';
-        dot.style.top = dotY + 'px';
-        requestAnimationFrame(animateDot);
-      }
-      animateDot();
-
-      window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        // небольшое изменение размера при движении
-        dot.style.width = '26px';
-        dot.style.height = '26px';
-        dot.style.background = 'rgba(255, 170, 200, 0.3)';
-        clearTimeout(window.dotTimeout);
-        window.dotTimeout = setTimeout(() => {
-          dot.style.width = '22px';
-          dot.style.height = '22px';
-          dot.style.background = 'rgba(255, 150, 180, 0.35)';
-        }, 100);
-      });
-
-      // при выходе за пределы окна прячем точку
-      document.addEventListener('mouseleave', () => {
-        dot.style.opacity = '0';
-      });
-      document.addEventListener('mouseenter', () => {
-        dot.style.opacity = '1';
-      });
-    } else if (dot) {
-      dot.style.display = 'none';
-    }
-
-    // ---- дополнительная плавность: Intersection Observer для анимации (уже есть fade-section) ----
-    // но сделаем чтобы при скролле в первый раз добавлялся класс видимости, если вдруг анимация сбросилась
-    const sections = document.querySelectorAll('.fade-section');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
+        // --- бургер-меню для мобильных ---
+        const burger = document.getElementById('burgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuLinks = mobileMenu.querySelectorAll('a');
+        
+        function closeMenu() {
+            mobileMenu.style.display = 'none';
         }
-      });
-    }, { threshold: 0.1 });
-    sections.forEach(s => observer.observe(s));
+        function openMenu() {
+            mobileMenu.style.display = 'flex';
+        }
+        
+        burger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (mobileMenu.style.display === 'flex') {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+        
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                closeMenu();
+            });
+        });
+        
+        // закрытие при клике вне меню
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 700) {
+                if (!mobileMenu.contains(e.target) && !burger.contains(e.target) && mobileMenu.style.display === 'flex') {
+                    closeMenu();
+                }
+            }
+        });
+        
+        // при ресайзе если ширина >700 скрываем мобильное меню
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 700) {
+                mobileMenu.style.display = 'none';
+            }
+        });
 
-    // инициализация стилей для анимации (если не заданы)
-    document.querySelectorAll('.fade-section').forEach(el => {
-      if (getComputedStyle(el).opacity === '1') {
-        // уже видно
-      }
-    });
-
-    // исправление: если изображение не загрузилось, можно подставить заглушку, но оставим как есть.
-    console.log('✨ diviaxel — сайт готов. Розовая точка следует за тобой.');
-  })();
+        // плавный скролл к якорям (для всех ссылок с href начинающимся на #)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === "#" || href === "") return;
+                const targetId = href.substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    })();
 </script>
+<!-- небольшая правка: обложки не кликабельны (как и просили) -->
 </body>
 </html>
