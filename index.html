@@ -337,6 +337,69 @@
             font-size: 18px;
         }
 
+        /* --- НОВОСТИ (блок) --- */
+        .news-card {
+            background: rgba(12, 16, 32, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid #2f3660;
+            border-radius: 36px;
+            padding: 28px 32px;
+            box-shadow: 0 20px 30px -8px #00000080;
+            transition: transform 0.2s;
+        }
+        .news-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .news-text {
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1.4;
+            color: #f0f3ff;
+        }
+        .news-banner {
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid #495085;
+            box-shadow: 0 10px 20px #0000004d;
+            transition: 0.2s;
+            max-width: 100%;
+        }
+        .news-banner img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s;
+        }
+        .news-banner:hover img {
+            transform: scale(1.02);
+        }
+        .news-button {
+            display: inline-block;
+            background: #1a1f42;
+            border: 1px solid #6b72b0;
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1.3rem;
+            padding: 16px 38px;
+            border-radius: 24px;
+            text-decoration: none;
+            text-align: center;
+            align-self: flex-start;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 10px 18px #00000040;
+            transition: all 0.2s ease;
+            letter-spacing: 0.5px;
+        }
+        .news-button:hover {
+            transform: scale(1.05);
+            background: #2f3870;
+            border-color: #a5abee;
+            box-shadow: 0 0 22px #5f67b0;
+        }
+
         /* соцсети блок */
         .social-grid {
             display: flex;
@@ -428,12 +491,15 @@
             .artist-avatar { width: 180px; height: 180px; }
             .section-title { font-size: 2rem; }
             .track-title { font-size: 1.1rem; }
+            .news-text { font-size: 1.3rem; }
+            .news-button { font-size: 1.1rem; padding: 14px 28px; }
         }
         @media screen and (max-width: 480px) {
             .track-row { padding: 10px 12px; gap: 12px; }
             .track-cover { width: 48px; height: 48px; }
             .social-button { min-width: 140px; padding: 15px 10px; }
             .social-label { font-size: 1.3rem; }
+            .news-card { padding: 20px 18px; }
         }
     </style>
 </head>
@@ -447,6 +513,7 @@
     <!-- DESKTOP NAVIGATION -->
     <nav class="desktop-nav">
         <button class="nav-btn" data-section="home">Главная</button>
+        <button class="nav-btn" data-section="news">Новости</button>
         <button class="nav-btn" data-section="latest">Последние релизы</button>
         <button class="nav-btn" data-section="upcoming">Будущие релизы</button>
         <button class="nav-btn" data-section="social">Соц. сети</button>
@@ -462,6 +529,7 @@
     <div class="menu-overlay" id="menuOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
         <button class="nav-btn" data-section="home">Главная</button>
+        <button class="nav-btn" data-section="news">Новости</button>
         <button class="nav-btn" data-section="latest">Последние релизы</button>
         <button class="nav-btn" data-section="upcoming">Будущие релизы</button>
         <button class="nav-btn" data-section="social">Соц. сети</button>
@@ -478,6 +546,25 @@
                 <div class="artist-desc">
                     diviaxel – Эмма Розенфельд (родилась 5 мая 2005 года). Музыкальный исполнитель и блогер, пишущий музыку в жанре Rap. Родилась в городе Киев, а проживает в городе Берлин.
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- НОВОСТИ (добавленный блок) -->
+    <section id="news">
+        <h2 class="section-title">Новости</h2>
+        <div class="news-card">
+            <div class="news-content">
+                <div class="news-text">
+                    RIAXA и diviaxel опубликовали совместный клип на совместный трек SLXT.
+                </div>
+                <!-- баннер из ютуб (кликабельный) -->
+                <a href="https://youtu.be/wvIY6hE2Q_s" target="_blank" class="news-banner">
+                    <img src="https://img.youtube.com/vi/wvIY6hE2Q_s/maxresdefault.jpg" alt="Клип SLXT" loading="lazy">
+                </a>
+                <a href="https://youtu.be/wvIY6hE2Q_s" target="_blank" class="news-button">
+                    <i class="fab fa-youtube" style="margin-right: 10px;"></i>Смотреть клип
+                </a>
             </div>
         </div>
     </section>
@@ -626,6 +713,7 @@
         // ---------- Плавный скролл по навигации ----------
         const sections = {
             home: document.getElementById('home'),
+            news: document.getElementById('news'),
             latest: document.getElementById('latest'),
             upcoming: document.getElementById('upcoming'),
             social: document.getElementById('social')
@@ -663,7 +751,6 @@
             overlay.classList.remove('show');
         });
 
-        // закрыть меню при клике на кнопку внутри (уже обработано, но на всякий)
         mobileMenu.querySelectorAll('.nav-btn').forEach(b => {
             b.addEventListener('click', () => {
                 mobileMenu.classList.remove('open');
@@ -671,7 +758,6 @@
             });
         });
 
-        // ---------- Ресайз: если окно >780 и меню открыто - закрываем (на всякий) ----------
         window.addEventListener('resize', () => {
             if (window.innerWidth > 780) {
                 mobileMenu.classList.remove('open');
@@ -679,15 +765,7 @@
             }
         });
 
-        // доп: если кликнули по ссылке-треку, открывается новая вкладка (уже target _blank)
-        // обложки не кликабельны отдельно — только вся строка.
-        // Все треки уже <a>
-
-        // небольшая подстройка: подписи "Single" и фиты отображаются корректно.
-        // Для deluxe используем track-feat, как и просили.
     })();
 </script>
-
-<!-- небольшая доработка: будущие релизы с плейсхолдерами иконок -->
 </body>
 </html>
