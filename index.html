@@ -319,18 +319,20 @@
             color: #a9aed6;
             opacity: 0.8;
         }
-        .track-soon {
+        /* дата релиза — овал как у Soon */
+        .track-date {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 500;
             font-size: 0.9rem;
             color: #e0b3ff;
             background: #2a1e3c;
-            padding: 2px 10px;
+            padding: 2px 12px;
             border-radius: 30px;
             letter-spacing: 0.3px;
-            margin-left: 8px;
             border: 0.5px solid #a27bc0;
-            opacity: 0.9;
+            opacity: 0.95;
+            margin-left: auto;  /* прижимаем к правому краю */
+            white-space: nowrap;
         }
         .no-artwork {
             background: #20243e;
@@ -489,6 +491,7 @@
             .track-title { font-size: 1.1rem; }
             .news-text { font-size: 1.3rem; }
             .news-button { font-size: 1.1rem; padding: 14px 28px; }
+            .track-date { font-size: 0.8rem; padding: 2px 8px; }
         }
         @media screen and (max-width: 480px) {
             .track-row { padding: 10px 12px; gap: 12px; }
@@ -552,34 +555,56 @@
         </div>
     </section>
 
-    <!-- ПОСЛЕДНИЕ РЕЛИЗЫ (тире исправлено) -->
+    <!-- ПОСЛЕДНИЕ РЕЛИЗЫ (с датами) -->
     <section id="latest">
         <h2 class="section-title">Последние релизы</h2>
         <div class="tracklist">
             <a href="https://band.link/slxt" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/14LdLFVm/slxt.jpg" alt="slxt"></div>
-                <div class="track-info"><span class="track-title">SLXT</span><span class="track-feat">ft. RIAXA</span><span class="track-sub-light"> - Single</span></div>
+                <div class="track-info">
+                    <span class="track-title">SLXT</span>
+                    <span class="track-feat">ft. RIAXA</span>
+                    <span class="track-sub-light"> - Single</span>
+                    <span class="track-date">09.04.26</span>
+                </div>
             </a>
             <a href="https://aetherlab.band.link/nahodkavrap" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/3Wp10cWw/nvr.jpg" alt="nahodka"></div>
-                <div class="track-info"><span class="track-title">НАХОДКА В РЭПЕ</span><span class="track-sub-light"> - Single</span></div>
+                <div class="track-info">
+                    <span class="track-title">НАХОДКА В РЭПЕ</span>
+                    <span class="track-sub-light"> - Single</span>
+                    <span class="track-date">03.04.26</span>
+                </div>
             </a>
             <a href="https://aetherlab.band.link/power_di" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/t1Ytqr8N/pvr.jpg" alt="power"></div>
-                <div class="track-info"><span class="track-title">POWER</span><span class="track-sub-light"> - Single</span></div>
+                <div class="track-info">
+                    <span class="track-title">POWER</span>
+                    <span class="track-sub-light"> - Single</span>
+                    <span class="track-date">27.03.26</span>
+                </div>
             </a>
             <a href="https://aetherlab.band.link/fly_mommy_di" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/mhQ3g1p0/mmi.jpg" alt="mommy"></div>
-                <div class="track-info"><span class="track-title">MOMMY</span><span class="track-feat">ft. CashiFly</span><span class="track-sub-light"> - Single</span></div>
+                <div class="track-info">
+                    <span class="track-title">MOMMY</span>
+                    <span class="track-feat">ft. CashiFly</span>
+                    <span class="track-sub-light"> - Single</span>
+                    <span class="track-date">13.03.26</span>
+                </div>
             </a>
             <a href="https://aetherlab.band.link/kupidon_di" target="_blank" class="track-row">
                 <div class="track-cover"><img src="https://i.postimg.cc/8FJMQ7rY/kpdn.jpg" alt="kupidon"></div>
-                <div class="track-info"><span class="track-title">КУПИДОН</span><span class="track-sub-light"> - Single</span></div>
+                <div class="track-info">
+                    <span class="track-title">КУПИДОН</span>
+                    <span class="track-sub-light"> - Single</span>
+                    <span class="track-date">13.02.26</span>
+                </div>
             </a>
         </div>
     </section>
 
-    <!-- БУДУЩИЕ РЕЛИЗЫ (тире исправлено, порядок Project X / Deluxe, Album, Soon) -->
+    <!-- БУДУЩИЕ РЕЛИЗЫ (даты вместо Soon) -->
     <section id="upcoming">
         <h2 class="section-title">Будущие релизы</h2>
         <div class="tracklist">
@@ -590,7 +615,7 @@
                     <span class="track-title">S Class</span>
                     <span class="track-feat">ft. WORLDSAMKA</span>
                     <span class="track-sub-light"> - Single</span>
-                    <span class="track-soon">Soon…</span>
+                    <span class="track-date">17.04.26</span>
                 </div>
             </a>
             <!-- 2. Project X (Album) -->
@@ -599,7 +624,7 @@
                 <div class="track-info">
                     <span class="track-title">Project X</span>
                     <span class="track-sub-light"> - Album</span>
-                    <span class="track-soon">Soon…</span>
+                    <span class="track-date">??.??.26</span>
                 </div>
             </a>
             <!-- 3. Project X (Deluxe Version) -->
@@ -608,7 +633,7 @@
                 <div class="track-info">
                     <span class="track-title">Project X</span>
                     <span class="track-feat">(Deluxe Version)</span>
-                    <span class="track-soon">Soon…</span>
+                    <span class="track-date">??.??.26</span>
                 </div>
             </a>
         </div>
