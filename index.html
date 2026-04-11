@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>diviaxel · official</title>
-    <link rel="icon" type="image/png" href="Logo (2).png">
+    <link rel="icon" type="image/png" href="Logo.png">
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -573,13 +573,54 @@
             text-decoration: none; font-weight: 500; border: 1px solid #6068a0;
         }
 
+        /* АДАПТИВ — особенно для кнопок "Текст трека" */
         @media screen and (max-width: 780px) {
             .container { padding: 15px 18px; }
             .desktop-nav { display: none; }
             .mobile-nav { display: flex; }
             .artist-name { font-size: 3.8rem; }
             .track-title { font-size: 1.1rem; }
-            .lyrics-btn { margin-left: 0; margin-top: 6px; }
+        }
+
+        @media screen and (max-width: 600px) {
+            .track-row {
+                flex-wrap: wrap;
+                padding: 12px 16px;
+            }
+            .track-main-link {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .track-info {
+                gap: 4px 8px;
+            }
+            .lyrics-btn {
+                margin-left: 0;
+                margin-top: 8px;
+                padding: 6px 16px;
+                font-size: 0.85rem;
+                width: auto;
+                align-self: flex-start;
+            }
+            .track-cover {
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .track-title { font-size: 1rem; }
+            .track-feat { font-size: 0.9rem; }
+            .track-sub-light { font-size: 0.85rem; }
+            .track-date, .track-soon, .track-new { font-size: 0.75rem; padding: 2px 8px; }
+            .lyrics-btn {
+                padding: 5px 14px;
+                font-size: 0.8rem;
+            }
+            .social-button { min-width: 140px; padding: 15px 10px; }
+            .social-label { font-size: 1.3rem; }
+            .news-carousel { padding: 20px 18px; }
+            .news-text { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -591,7 +632,6 @@
 <div class="cursor-trail" id="cursorTrail"></div>
 
 <div class="container">
-    <!-- навигация и остальной контент без изменений (как в исходном коде) -->
     <nav class="desktop-nav">
         <button class="nav-btn" data-section="home">Главная</button>
         <button class="nav-btn" data-section="news">Новости</button>
@@ -793,13 +833,12 @@
 
 <script>
     (function(){
-        // --- Audio context (тихие звуки) ---
+        // Audio context
         let audioCtx = null;
         function initAudio() {
             if (audioCtx) return;
             try {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                // ambient при загрузке
                 if (audioCtx.state === 'suspended') audioCtx.resume();
                 const now = audioCtx.currentTime;
                 const osc = audioCtx.createOscillator();
@@ -842,19 +881,17 @@
             osc.stop(now+0.05);
         }
 
-        // активируем аудио при первом взаимодействии
         document.body.addEventListener('click', function audioUnlock() {
             initAudio();
             document.body.removeEventListener('click', audioUnlock);
         }, { once: true });
 
-        // звук на hover по интерактивным элементам
         const hoverElements = document.querySelectorAll('a, .nav-btn, .carousel-arrow, .dot, .menu-icon, .social-button, .track-row, .lyrics-btn, .news-button');
         hoverElements.forEach(el => {
             el.addEventListener('mouseenter', () => { playHoverSound(); });
         });
 
-        // --- курсор: trail + flash ---
+        // Курсор
         const blurBall = document.getElementById('cursorBlur');
         const trail = document.getElementById('cursorTrail');
         let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
@@ -872,7 +909,6 @@
         animateCursor();
         window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
 
-        // клик — вспышка
         document.addEventListener('click', (e) => {
             const flash = document.createElement('div');
             flash.className = 'click-flash';
@@ -883,7 +919,7 @@
             playClickSound();
         });
 
-        // плавный скролл и меню (как было)
+        // Скролл и меню
         const sections = {
             home: document.getElementById('home'),
             news: document.getElementById('news'),
@@ -935,8 +971,6 @@
             prevBtn.addEventListener('click', () => { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; updateCarousel(); });
             nextBtn.addEventListener('click', () => { currentIndex = (currentIndex + 1) % totalSlides; updateCarousel(); });
         } else { prevBtn.style.opacity = '0.3'; prevBtn.style.pointerEvents = 'none'; nextBtn.style.opacity = '0.3'; nextBtn.style.pointerEvents = 'none'; }
-
-        // выравнивание кнопок текста уже сделано в CSS (margin-left: auto)
     })();
 </script>
 </body>
