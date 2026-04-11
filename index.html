@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>diviaxel · official</title>
-        <link rel="icon" type="image/png" href="Logo.png">
+    <link rel="icon" type="image/png" href="Logo.png">
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,21 +26,23 @@
             overflow-x: hidden;
         }
 
-        /* animated gradient background (black ↔ dark grey) */
+        /* moving gradient background */
         .bg-gradient {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 30% 30%, #1e1e24, #0a0a0e);
-            background-size: 200% 200%;
-            animation: bgShift 18s ease infinite;
+            background: radial-gradient(circle at 30% 30%, #1a1a2e, #0a0a0e, #16162a);
+            background-size: 300% 300%;
+            animation: slowMove 25s ease infinite alternate;
             z-index: -3;
         }
-        @keyframes bgShift {
+        @keyframes slowMove {
             0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
+            25% { background-position: 50% 30%; }
+            50% { background-position: 100% 70%; }
+            75% { background-position: 30% 90%; }
             100% { background-position: 0% 0%; }
         }
 
@@ -57,19 +59,90 @@
             z-index: -2;
         }
 
-        /* pink blur follower */
+        /* pink blur follower (improved) */
         .cursor-blur {
             position: fixed;
-            width: 400px;
-            height: 400px;
+            width: 500px;
+            height: 500px;
             border-radius: 50%;
-            background: rgba(255, 120, 200, 0.25);
-            filter: blur(100px);
+            background: radial-gradient(circle, rgba(255, 160, 220, 0.35) 0%, rgba(200, 100, 255, 0.15) 70%, transparent 100%);
+            filter: blur(90px);
             pointer-events: none;
-            z-index: -1;
+            z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: transform 0.08s linear;
+            transition: transform 0.05s linear, width 0.2s, height 0.2s, background 0.1s;
             will-change: left, top;
+        }
+        .cursor-blur.clicked {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 200, 230, 0.5) 0%, rgba(180, 80, 255, 0.3) 70%, transparent 100%);
+        }
+
+        /* splash screen */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0b0b10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 1.2s ease, visibility 1.2s;
+            backdrop-filter: blur(20px);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .splash-content {
+            text-align: center;
+            padding: 40px;
+            background: rgba(20, 20, 40, 0.6);
+            border-radius: 60px;
+            border: 1px solid #6b6f9e;
+            box-shadow: 0 0 70px #2a1e3c;
+            backdrop-filter: blur(10px);
+            animation: fadeGlow 2s infinite alternate;
+        }
+        .splash-content h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px #c58aff;
+            margin-bottom: 20px;
+        }
+        .splash-content p {
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+        .splash-btn {
+            margin-top: 30px;
+            background: #2f2b50;
+            border: 1px solid #b5a9ff;
+            color: white;
+            padding: 14px 38px;
+            font-size: 1.4rem;
+            border-radius: 40px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: 0.2s;
+            font-weight: 600;
+        }
+        .splash-btn:hover {
+            transform: scale(1.05);
+            background: #4a4170;
+            box-shadow: 0 0 25px #b1a0ff;
+        }
+        .splash-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        @keyframes fadeGlow {
+            0% { box-shadow: 0 0 30px #4f3a6e; }
+            100% { box-shadow: 0 0 70px #b395f0; }
         }
 
         /* main container */
@@ -81,7 +154,7 @@
             z-index: 2;
         }
 
-        /* ----- navigation (desktop) ----- */
+        /* navigation */
         .desktop-nav {
             display: flex;
             justify-content: center;
@@ -106,543 +179,139 @@
             letter-spacing: 1px;
             background: #10121e;
         }
+        /* glitch / blur on hover (links/buttons) */
         .nav-btn:hover {
             transform: scale(1.08);
             background: #1e2440;
             border-color: #6d6f9c;
             box-shadow: 0 0 18px rgba(150, 150, 255, 0.3);
+            text-shadow: 0 0 5px #aaaaff, 2px 2px 0px #3f3f70;
+            filter: blur(0.3px);
         }
 
         /* mobile nav */
-        .mobile-nav {
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
-        }
+        .mobile-nav { display: none; align-items: center; justify-content: space-between; margin-bottom: 25px; }
         .menu-icon {
-            font-size: 32px;
-            color: #fff;
-            background: rgba(20, 25, 40, 0.7);
-            backdrop-filter: blur(8px);
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid #3d405b;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .menu-icon:hover {
-            background: #2a2f50;
+            font-size: 32px; color: #fff; background: rgba(20,25,40,0.7); backdrop-filter: blur(8px);
+            padding: 8px 16px; border-radius: 20px; border: 1px solid #3d405b; cursor: pointer; transition: 0.2s;
         }
         .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 260px;
-            height: 100vh;
-            background: #0e101c;
-            backdrop-filter: blur(12px);
-            border-right: 1px solid #2f3250;
-            padding: 30px 20px;
-            transform: translateX(-100%);
-            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            box-shadow: 8px 0 30px rgba(0,0,0,0.5);
+            position: fixed; top: 0; left: 0; width: 260px; height: 100vh; background: #0e101c;
+            backdrop-filter: blur(12px); border-right: 1px solid #2f3250; padding: 30px 20px;
+            transform: translateX(-100%); transition: transform 0.3s; z-index: 100;
         }
-        .mobile-menu.open {
-            transform: translateX(0);
-        }
-        .mobile-menu .nav-btn {
-            width: 100%;
-            text-align: left;
-            background: transparent;
-            border: 1px solid #353b5a;
-        }
-        .menu-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(2px);
-            z-index: 99;
-            display: none;
-        }
-        .menu-overlay.show {
-            display: block;
-        }
+        .mobile-menu.open { transform: translateX(0); }
+        .menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(2px); z-index: 99; display: none; }
+        .menu-overlay.show { display: block; }
 
         /* sections */
-        section {
-            scroll-margin-top: 30px;
-            margin-bottom: 70px;
-        }
+        section { scroll-margin-top: 30px; margin-bottom: 70px; }
         .section-title {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 600;
-            font-size: 2.4rem;
-            letter-spacing: -0.5px;
-            margin-bottom: 28px;
-            border-left: 8px solid #b5a9ff;
-            padding-left: 28px;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 2.4rem;
+            letter-spacing: -0.5px; margin-bottom: 28px; border-left: 8px solid #b5a9ff;
+            padding-left: 28px; text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            /* noise effect */
+            position: relative;
+        }
+        .section-title::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.04"/></svg>');
+            pointer-events: none; mix-blend-mode: overlay;
         }
 
-        /* artist card (home) */
+        /* artist card */
         .artist-card {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            background: rgba(8, 10, 20, 0.55);
-            backdrop-filter: blur(10px);
-            border-radius: 48px;
-            padding: 30px 40px;
-            border: 1px solid #2b2f55;
-            box-shadow: 0 25px 40px -12px #00000080;
-            flex-wrap: wrap;
+            display: flex; align-items: center; gap: 40px; background: rgba(8,10,20,0.55);
+            backdrop-filter: blur(10px); border-radius: 48px; padding: 30px 40px;
+            border: 1px solid #2b2f55; box-shadow: 0 25px 40px -12px #00000080;
+            transition: all 0.3s;
         }
-        .artist-avatar {
-            flex-shrink: 0;
-            width: 220px;
-            height: 220px;
-            border-radius: 40px;
-            overflow: hidden;
-            border: 2px solid #4f5180;
-            box-shadow: 0 0 30px #1e1f3a;
-        }
-        .artist-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .artist-info {
-            flex: 1;
-        }
-        .artist-name {
-            font-size: 5rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-            line-height: 1;
-            margin-bottom: 16px;
-            text-transform: lowercase;
-            background: linear-gradient(135deg, #ffffff, #d4d0ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .artist-desc {
-            background: #0c0f1c;
-            padding: 24px 28px;
-            border-radius: 28px;
-            font-size: 1.2rem;
-            line-height: 1.5;
-            color: #e6e9ff;
-            border: 1px solid #303660;
-            box-shadow: inset 0 2px 5px #00000033, 0 8px 12px #00000030;
-            font-weight: 400;
+        .artist-card:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 35px #5f5590;
+            border-color: #8f94d0;
         }
 
-        /* треклист (Apple Music стиль) */
+        /* треклист */
         .tracklist {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            background: rgba(18, 22, 40, 0.5);
-            backdrop-filter: blur(8px);
-            padding: 18px 12px;
-            border-radius: 36px;
-            border: 1px solid #323a60;
+            display: flex; flex-direction: column; gap: 8px; background: rgba(18,22,40,0.5);
+            backdrop-filter: blur(8px); padding: 18px 12px; border-radius: 36px; border: 1px solid #323a60;
         }
         .track-row {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding: 10px 22px;
-            border-radius: 24px;
-            background: #0d1020c9;
-            backdrop-filter: blur(4px);
-            border: 1px solid #2a2f55;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 10px #00000033;
-            text-decoration: none;
-            color: inherit;
+            display: flex; align-items: center; gap: 20px; padding: 10px 22px; border-radius: 24px;
+            background: #0d1020c9; backdrop-filter: blur(4px); border: 1px solid #2a2f55;
+            transition: all 0.25s; box-shadow: 0 4px 10px #00000033;
         }
         .track-row:hover {
-            background: #1a1f42;
-            border-color: #7f84c2;
-            transform: scale(1.01);
-            box-shadow: 0 8px 20px #0b0e1f;
+            background: #1a1f42; border-color: #7f84c2; transform: scale(1.01); box-shadow: 0 0 22px #5f67a0;
         }
-        .track-main-link {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex: 1;
-            text-decoration: none;
-            color: inherit;
-        }
-        .track-cover {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            overflow: hidden;
-            flex-shrink: 0;
-            background: #1b1e38;
-            border: 1px solid #444b7a;
-            box-shadow: 0 6px 10px #0000004d;
-        }
-        .track-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .track-info {
-            flex: 1;
-            display: flex;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 6px 12px;
-        }
-        .track-title {
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 1.35rem;
-            letter-spacing: -0.02em;
-            color: #ffffff;
-        }
-        .track-feat {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 400;
-            font-size: 1rem;
-            color: #b1b6e0;
-            opacity: 0.75;
-        }
-        .track-sub-light {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 400;
-            font-size: 0.95rem;
-            color: #a9aed6;
-            opacity: 0.8;
-        }
-        .track-date {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 500;
-            font-size: 0.9rem;
-            color: #e0b3ff;
-            background: #2a1e3c;
-            padding: 2px 12px;
-            border-radius: 30px;
-            letter-spacing: 0.3px;
-            border: 0.5px solid #a27bc0;
-            opacity: 0.95;
-            white-space: nowrap;
-        }
-        .track-soon {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 500;
-            font-size: 0.9rem;
-            color: #e0b3ff;
-            background: #2a1e3c;
-            padding: 2px 12px;
-            border-radius: 30px;
-            letter-spacing: 0.3px;
-            border: 0.5px solid #a27bc0;
-            opacity: 0.95;
-            white-space: nowrap;
-        }
-        .track-new {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #1e1a0b;
-            background: #f5d547;
-            padding: 2px 12px;
-            border-radius: 30px;
-            letter-spacing: 0.3px;
-            border: 0.5px solid #f3c623;
-            opacity: 0.95;
-            white-space: nowrap;
-            box-shadow: 0 0 6px #f5e374;
-        }
+        .track-main-link { display: flex; align-items: center; gap: 20px; flex: 1; text-decoration: none; color: inherit; }
+        .track-cover { width: 56px; height: 56px; border-radius: 16px; overflow: hidden; background: #1b1e38; border: 1px solid #444b7a; }
+        .track-info { flex: 1; display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 12px; }
+        .track-title { font-weight: 600; font-size: 1.35rem; }
+        .track-feat { font-size: 1rem; color: #b1b6e0; opacity: 0.75; }
+        .track-sub-light { font-size: 0.95rem; color: #a9aed6; opacity: 0.8; }
 
         .lyrics-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #2a2740;
-            border: 1px solid #7f85b0;
-            color: #f0e9ff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 500;
-            font-size: 0.9rem;
-            padding: 6px 16px;
-            border-radius: 30px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 2px 8px #00000040;
-            white-space: nowrap;
-            margin-left: 8px;
+            display: inline-flex; align-items: center; gap: 6px; background: #2a2740;
+            border: 1px solid #7f85b0; color: #f0e9ff; font-weight: 500; font-size: 0.9rem;
+            padding: 6px 16px; border-radius: 30px; text-decoration: none; transition: 0.2s;
+            backdrop-filter: blur(4px); box-shadow: 0 2px 8px #00000040; white-space: nowrap;
         }
-        .lyrics-btn i {
-            font-size: 1rem;
-            color: #f5d547;
-        }
+        .lyrics-btn i { color: #f5d547; }
         .lyrics-btn:hover {
-            background: #3f3865;
-            border-color: #c0b9ff;
-            transform: scale(1.03);
-            box-shadow: 0 0 12px #b1a9f0;
+            background: #3f3865; border-color: #c0b9ff; transform: scale(1.03);
+            box-shadow: 0 0 16px #b1a9f0; filter: blur(0.3px);
         }
 
-        .no-artwork {
-            background: #20243e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #7d83b5;
-            font-size: 18px;
-        }
-
-        /* --- НОВОСТИ (карусель) --- */
-        .news-carousel {
-            position: relative;
-            background: rgba(12, 16, 32, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid #2f3660;
-            border-radius: 36px;
-            padding: 28px 32px 24px;
-            box-shadow: 0 20px 30px -8px #00000080;
-        }
-        .carousel-container {
-            overflow: hidden;
-            width: 100%;
-        }
-        .carousel-slides {
-            display: flex;
-            transition: transform 0.4s ease;
-        }
-        .carousel-slide {
-            flex: 0 0 100%;
-            padding: 4px 8px;
-        }
-        .news-content {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-        .news-text {
-            font-size: 1.5rem;
-            font-weight: 500;
-            line-height: 1.4;
-            color: #f0f3ff;
-        }
-        .news-actions {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 16px;
-        }
-        .news-banner {
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid #495085;
-            box-shadow: 0 10px 20px #0000004d;
-            max-width: 100%;
-            width: fit-content;
-        }
-        .news-banner img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.3s;
-            max-height: 200px;
-            object-fit: cover;
-        }
-        .news-banner:hover img {
-            transform: scale(1.02);
-        }
-        .news-button {
-            display: inline-block;
-            background: #1a1f42;
-            border: 1px solid #6b72b0;
-            color: white;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 600;
-            font-size: 1.2rem;
-            padding: 14px 28px;
-            border-radius: 24px;
-            text-decoration: none;
-            text-align: center;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 10px 18px #00000040;
-            transition: all 0.2s ease;
-        }
-        .news-button i {
-            margin-right: 8px;
-        }
-        .news-button:hover {
-            transform: scale(1.05);
-            background: #2f3870;
-            border-color: #a5abee;
-            box-shadow: 0 0 22px #5f67b0;
-        }
-        .news-button.disabled {
-            opacity: 0.6;
-            pointer-events: none;
-            background: #282e4e;
-            border-color: #4e5470;
-        }
-        .carousel-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            gap: 30px;
-        }
-        .carousel-arrow {
-            background: #1e2340;
-            border: 1px solid #5a6090;
-            color: #f0f0ff;
-            width: 44px;
-            height: 44px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.15s;
-            backdrop-filter: blur(4px);
-        }
-        .carousel-arrow:hover {
-            background: #3c4370;
-            transform: scale(1.1);
-        }
-        .carousel-dots {
-            display: flex;
-            gap: 12px;
-        }
-        .dot {
-            width: 12px;
-            height: 12px;
-            background: #3a4065;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid #757bb0;
-        }
-        .dot.active {
-            background: #e0b3ff;
-            width: 28px;
-            border-color: #d4c5ff;
-        }
+        /* новости */
+        .news-carousel { background: rgba(12,16,32,0.7); backdrop-filter: blur(10px); border-radius: 36px; padding: 28px 32px; border: 1px solid #2f3660; transition: 0.2s; }
+        .news-carousel:hover { box-shadow: 0 0 30px #3e3f7a; }
+        .news-button { transition: 0.2s; }
+        .news-button:hover { filter: blur(0.4px); text-shadow: 0 0 5px #bbbbff; }
 
         /* соцсети */
-        .social-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 25px;
+        .social-button { transition: all 0.25s; }
+        .social-button:hover { filter: blur(0.3px); }
+
+        /* общий glitch для ссылок */
+        a, .clickable { transition: 0.15s; }
+        a:hover, .nav-btn:hover, .lyrics-btn:hover, .news-button:hover, .social-button:hover {
+            animation: glitchText 0.2s infinite alternate;
         }
-        .social-button {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #0c1020e0;
-            backdrop-filter: blur(8px);
-            border: 1px solid #3e4570;
-            border-radius: 28px;
-            padding: 20px 30px;
-            min-width: 170px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.25s;
-            box-shadow: 0 12px 18px -8px black;
-        }
-        .social-button:hover {
-            transform: scale(1.07);
-            background: #1c2348;
-            border-color: #a3a9e6;
-            box-shadow: 0 0 25px #4f56a0;
-        }
-        .social-icon {
-            font-size: 38px;
-            margin-bottom: 12px;
-        }
-        .social-label {
-            font-weight: 600;
-            font-size: 1.6rem;
-            transition: transform 0.2s;
-        }
-        .social-url-hint {
-            font-size: 0.9rem;
-            color: #b9bedd;
-            opacity: 0.7;
-            margin-top: 6px;
-        }
-        .social-button:hover .social-label {
-            transform: translateY(-6px);
-        }
-        .social-button:hover .social-url-hint {
-            opacity: 1;
+        @keyframes glitchText {
+            0% { text-shadow: 1px 0 #ff66c4, -1px 0 #66ccff; }
+            100% { text-shadow: -1px 0 #ff66c4, 1px 0 #66ccff; }
         }
 
-        /* footer */
-        .footer-note {
-            margin-top: 80px;
-            text-align: center;
-            border-top: 1px dashed #40477a;
-            padding-top: 35px;
-            font-size: 1.2rem;
-            color: #ccd1f0;
-        }
-        .credit-link {
-            display: inline-block;
-            margin-top: 12px;
-            background: #191e3b;
-            padding: 10px 24px;
-            border-radius: 40px;
-            color: #f0d0ff;
-            text-decoration: none;
-            font-weight: 500;
-            border: 1px solid #6068a0;
-            transition: 0.15s;
-        }
-        .credit-link:hover {
-            background: #2e3465;
-            transform: scale(1.04);
+        /* шум на тексте */
+        .artist-desc, .track-title, .news-text {
+            position: relative;
         }
 
+        /* адаптив */
         @media screen and (max-width: 780px) {
             .container { padding: 15px 18px; }
             .desktop-nav { display: none; }
             .mobile-nav { display: flex; }
             .artist-name { font-size: 3.8rem; }
-            .artist-card { padding: 25px 20px; flex-direction: column; text-align: center; }
-            .artist-avatar { width: 180px; height: 180px; }
-            .section-title { font-size: 2rem; }
-            .track-title { font-size: 1.1rem; }
-            .news-text { font-size: 1.3rem; }
-            .news-button { font-size: 1.1rem; padding: 12px 22px; }
-            .track-date, .track-soon, .track-new, .lyrics-btn { font-size: 0.8rem; padding: 4px 10px; }
         }
         @media screen and (max-width: 480px) {
             .track-row { flex-wrap: wrap; }
-            .track-main-link { flex-wrap: wrap; }
-            .track-cover { width: 48px; height: 48px; }
-            .social-button { min-width: 140px; padding: 15px 10px; }
-            .social-label { font-size: 1.3rem; }
-            .news-carousel { padding: 20px 18px; }
             .lyrics-btn { margin-left: 0; margin-top: 4px; }
         }
     </style>
 </head>
 <body>
+
+<!-- Splash Screen -->
+<div class="splash-screen" id="splashScreen">
+    <div class="splash-content">
+        <h1>✨ diviaxel ✨</h1>
+        <p>добро пожаловать на официальный сайт</p>
+        <div class="splash-btn" id="enterBtn">войти</div>
+    </div>
+</div>
 
 <div class="bg-gradient"></div>
 <div class="pattern-overlay"></div>
@@ -687,29 +356,19 @@
         <div class="news-carousel">
             <div class="carousel-container">
                 <div class="carousel-slides" id="carouselSlides">
-                    <!-- Слайд 1: НОВАЯ НОВОСТЬ (первая) -->
                     <div class="carousel-slide">
                         <div class="news-content">
-                            <div class="news-text">
-                                diviaxel и WORLDSAMKA опубликовали сниппет на совместный трек «S Class»
-                            </div>
+                            <div class="news-text">diviaxel и WORLDSAMKA опубликовали сниппет на совместный трек «S Class»</div>
                             <div class="news-actions">
-                                <a href="https://genius.com/Diviaxel-and-worldsamka-s-class-lyrics" target="_blank" class="news-button">
-                                    <i class="fab fa-genius"></i>Текст трека
-                                </a>
-                                <span class="news-button disabled">
-                                    <i class="fas fa-headphones"></i> Послушать сниппет (Скоро)
-                                </span>
+                                <a href="https://genius.com/Diviaxel-and-worldsamka-s-class-lyrics" target="_blank" class="news-button"><i class="fab fa-genius"></i>Текст трека</a>
+                                <span class="news-button disabled"><i class="fas fa-headphones"></i> Послушать сниппет (Скоро)</span>
                             </div>
                         </div>
                     </div>
-                    <!-- Слайд 2: предыдущая новость (клип SLXT) -->
                     <div class="carousel-slide">
                         <div class="news-content">
                             <div class="news-text">RIAXA и diviaxel опубликовали совместный клип на совместный трек SLXT.</div>
-                            <a href="https://youtu.be/wvIY6hE2Q_s" target="_blank" class="news-banner">
-                                <img src="https://img.youtube.com/vi/wvIY6hE2Q_s/maxresdefault.jpg" alt="Клип SLXT" loading="lazy">
-                            </a>
+                            <a href="https://youtu.be/wvIY6hE2Q_s" target="_blank" class="news-banner"><img src="https://img.youtube.com/vi/wvIY6hE2Q_s/maxresdefault.jpg" alt="Клип SLXT"></a>
                             <a href="https://youtu.be/wvIY6hE2Q_s" target="_blank" class="news-button"><i class="fab fa-youtube"></i> Смотреть клип</a>
                         </div>
                     </div>
@@ -727,79 +386,11 @@
     <section id="latest">
         <h2 class="section-title">Последние релизы</h2>
         <div class="tracklist">
-            <!-- SLXT -->
-            <div class="track-row">
-                <a href="https://band.link/slxt" target="_blank" class="track-main-link">
-                    <div class="track-cover"><img src="https://i.postimg.cc/14LdLFVm/slxt.jpg" alt="slxt"></div>
-                    <div class="track-info">
-                        <span class="track-title">SLXT</span>
-                        <span class="track-feat">ft. RIAXA</span>
-                        <span class="track-sub-light"> Single</span>
-                        <span class="track-new">New</span>
-                        <span class="track-date">09.04.26</span>
-                    </div>
-                </a>
-                <a href="https://genius.com/Riaxa-and-diviaxel-slxt-lyrics" target="_blank" class="lyrics-btn">
-                    <i class="fab fa-genius"></i>Текст трека
-                </a>
-            </div>
-            <!-- НАХОДКА В РЭПЕ -->
-            <div class="track-row">
-                <a href="https://aetherlab.band.link/nahodkavrap" target="_blank" class="track-main-link">
-                    <div class="track-cover"><img src="https://i.postimg.cc/3Wp10cWw/nvr.jpg" alt="nahodka"></div>
-                    <div class="track-info">
-                        <span class="track-title">НАХОДКА В РЭПЕ</span>
-                        <span class="track-sub-light"> Single</span>
-                        <span class="track-date">03.04.26</span>
-                    </div>
-                </a>
-                <a href="https://genius.com/Diviaxel-a-rap-find-lyrics" target="_blank" class="lyrics-btn">
-                    <i class="fab fa-genius"></i>Текст трека
-                </a>
-            </div>
-            <!-- POWER -->
-            <div class="track-row">
-                <a href="https://aetherlab.band.link/power_di" target="_blank" class="track-main-link">
-                    <div class="track-cover"><img src="https://i.postimg.cc/t1Ytqr8N/pvr.jpg" alt="power"></div>
-                    <div class="track-info">
-                        <span class="track-title">POWER</span>
-                        <span class="track-sub-light"> Single</span>
-                        <span class="track-date">27.03.26</span>
-                    </div>
-                </a>
-                <a href="https://genius.com/Diviaxel-power-lyrics" target="_blank" class="lyrics-btn">
-                    <i class="fab fa-genius"></i>Текст трека
-                </a>
-            </div>
-            <!-- MOMMY -->
-            <div class="track-row">
-                <a href="https://aetherlab.band.link/fly_mommy_di" target="_blank" class="track-main-link">
-                    <div class="track-cover"><img src="https://i.postimg.cc/mhQ3g1p0/mmi.jpg" alt="mommy"></div>
-                    <div class="track-info">
-                        <span class="track-title">MOMMY</span>
-                        <span class="track-feat">ft. CashiFly</span>
-                        <span class="track-sub-light"> Single</span>
-                        <span class="track-date">13.03.26</span>
-                    </div>
-                </a>
-                <a href="https://genius.com/Diviaxel-and-cashifly-mommy-lyrics" target="_blank" class="lyrics-btn">
-                    <i class="fab fa-genius"></i>Текст трека
-                </a>
-            </div>
-            <!-- КУПИДОН -->
-            <div class="track-row">
-                <a href="https://aetherlab.band.link/kupidon_di" target="_blank" class="track-main-link">
-                    <div class="track-cover"><img src="https://i.postimg.cc/8FJMQ7rY/kpdn.jpg" alt="kupidon"></div>
-                    <div class="track-info">
-                        <span class="track-title">КУПИДОН</span>
-                        <span class="track-sub-light"> Single</span>
-                        <span class="track-date">13.02.26</span>
-                    </div>
-                </a>
-                <a href="https://genius.com/Diviaxel-cupid-lyrics" target="_blank" class="lyrics-btn">
-                    <i class="fab fa-genius"></i>Текст трека
-                </a>
-            </div>
+            <!-- SLXT --><div class="track-row"><a href="https://band.link/slxt" target="_blank" class="track-main-link"><div class="track-cover"><img src="https://i.postimg.cc/14LdLFVm/slxt.jpg"></div><div class="track-info"><span class="track-title">SLXT</span><span class="track-feat">ft. RIAXA</span><span class="track-sub-light"> Single</span><span class="track-new">New</span><span class="track-date">09.04.26</span></div></a><a href="https://genius.com/Riaxa-and-diviaxel-slxt-lyrics" target="_blank" class="lyrics-btn"><i class="fab fa-genius"></i>Текст трека</a></div>
+            <!-- НАХОДКА --><div class="track-row"><a href="https://aetherlab.band.link/nahodkavrap" target="_blank" class="track-main-link"><div class="track-cover"><img src="https://i.postimg.cc/3Wp10cWw/nvr.jpg"></div><div class="track-info"><span class="track-title">НАХОДКА В РЭПЕ</span><span class="track-sub-light"> Single</span><span class="track-date">03.04.26</span></div></a><a href="https://genius.com/Diviaxel-a-rap-find-lyrics" target="_blank" class="lyrics-btn"><i class="fab fa-genius"></i>Текст трека</a></div>
+            <!-- POWER --><div class="track-row"><a href="https://aetherlab.band.link/power_di" target="_blank" class="track-main-link"><div class="track-cover"><img src="https://i.postimg.cc/t1Ytqr8N/pvr.jpg"></div><div class="track-info"><span class="track-title">POWER</span><span class="track-sub-light"> Single</span><span class="track-date">27.03.26</span></div></a><a href="https://genius.com/Diviaxel-power-lyrics" target="_blank" class="lyrics-btn"><i class="fab fa-genius"></i>Текст трека</a></div>
+            <!-- MOMMY --><div class="track-row"><a href="https://aetherlab.band.link/fly_mommy_di" target="_blank" class="track-main-link"><div class="track-cover"><img src="https://i.postimg.cc/mhQ3g1p0/mmi.jpg"></div><div class="track-info"><span class="track-title">MOMMY</span><span class="track-feat">ft. CashiFly</span><span class="track-sub-light"> Single</span><span class="track-date">13.03.26</span></div></a><a href="https://genius.com/Diviaxel-and-cashifly-mommy-lyrics" target="_blank" class="lyrics-btn"><i class="fab fa-genius"></i>Текст трека</a></div>
+            <!-- КУПИДОН --><div class="track-row"><a href="https://aetherlab.band.link/kupidon_di" target="_blank" class="track-main-link"><div class="track-cover"><img src="https://i.postimg.cc/8FJMQ7rY/kpdn.jpg"></div><div class="track-info"><span class="track-title">КУПИДОН</span><span class="track-sub-light"> Single</span><span class="track-date">13.02.26</span></div></a><a href="https://genius.com/Diviaxel-cupid-lyrics" target="_blank" class="lyrics-btn"><i class="fab fa-genius"></i>Текст трека</a></div>
         </div>
     </section>
 
@@ -807,35 +398,9 @@
     <section id="upcoming">
         <h2 class="section-title">Будущие релизы</h2>
         <div class="tracklist">
-            <a href="https://aetherlab.band.link/di_sclass_ws" target="_blank" class="track-row">
-                <div class="track-cover"><img src="https://i.postimg.cc/kD9s8ySt/IMG-6963-(2).png" alt="S Class"></div>
-                <div class="track-info">
-                    <span class="track-title">S Class</span>
-                    <span class="track-feat">ft. WORLDSAMKA</span>
-                    <span class="track-sub-light"> Single</span>
-                    <span class="track-date">17.04.26</span>
-                    <span class="track-soon">Soon</span>
-                </div>
-            </a>
-            <a href="https://lnkfi.re/ProjectX" target="_blank" class="track-row">
-                <div class="track-cover no-artwork"><i class="fas fa-hourglass-start"></i></div>
-                <div class="track-info">
-                    <span class="track-title">Project X</span>
-                    <span class="track-sub-light"> Album</span>
-                    <span class="track-date">??.??.26</span>
-                    <span class="track-soon">Soon</span>
-                </div>
-            </a>
-            <a href="https://lnkfi.re/ProjectX-DeluxeVersion" target="_blank" class="track-row">
-                <div class="track-cover no-artwork"><i class="fas fa-hourglass-half" style="opacity:0.7;"></i></div>
-                <div class="track-info">
-                    <span class="track-title">Project X</span>
-                    <span class="track-feat">(Deluxe Version)</span>
-                    <span class="track-sub-light"> Album</span>
-                    <span class="track-date">??.??.26</span>
-                    <span class="track-soon">Soon</span>
-                </div>
-            </a>
+            <a href="https://aetherlab.band.link/di_sclass_ws" target="_blank" class="track-row"><div class="track-cover"><img src="https://i.postimg.cc/kD9s8ySt/IMG-6963-(2).png"></div><div class="track-info"><span class="track-title">S Class</span><span class="track-feat">ft. WORLDSAMKA</span><span class="track-sub-light"> Single</span><span class="track-date">17.04.26</span><span class="track-soon">Soon</span></div></a>
+            <a href="https://lnkfi.re/ProjectX" target="_blank" class="track-row"><div class="track-cover no-artwork"><i class="fas fa-hourglass-start"></i></div><div class="track-info"><span class="track-title">Project X</span><span class="track-sub-light"> Album</span><span class="track-date">??.??.26</span><span class="track-soon">Soon</span></div></a>
+            <a href="https://lnkfi.re/ProjectX-DeluxeVersion" target="_blank" class="track-row"><div class="track-cover no-artwork"><i class="fas fa-hourglass-half"></i></div><div class="track-info"><span class="track-title">Project X</span><span class="track-feat">(Deluxe Version)</span><span class="track-sub-light"> Album</span><span class="track-date">??.??.26</span><span class="track-soon">Soon</span></div></a>
         </div>
     </section>
 
@@ -858,89 +423,95 @@
 
 <script>
     (function(){
+        // --- Splash & Audio Context ---
+        const splash = document.getElementById('splashScreen');
+        const enterBtn = document.getElementById('enterBtn');
+        let audioCtx = null;
+        function initAudio() {
+            if (audioCtx) return;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                // resume if suspended
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+            } catch(e) {}
+        }
+        function playSound(type = 'click', freq = 800) {
+            if (!audioCtx) { initAudio(); if (!audioCtx) return; }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+            osc.connect(gain).connect(audioCtx.destination);
+            osc.start();
+            osc.stop(now + 0.08);
+        }
+        function playAmbience() {
+            if (!audioCtx) initAudio();
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.value = 220;
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+            osc.connect(gain).connect(audioCtx.destination);
+            osc.start();
+            osc.stop(now + 1.2);
+        }
+        // Splash fade out
+        function hideSplash() {
+            splash.classList.add('fade-out');
+            playAmbience();
+            initAudio();
+        }
+        enterBtn.addEventListener('click', () => { hideSplash(); });
+        setTimeout(() => { if (!splash.classList.contains('fade-out')) hideSplash(); }, 5000);
+
+        // Hover sounds
+        document.querySelectorAll('.nav-btn, .lyrics-btn, .news-button, .social-button, .track-row, .carousel-arrow').forEach(el => {
+            el.addEventListener('mouseenter', () => { playSound('hover', 900); });
+        });
+
+        // Cursor blur + click effect
         const blurBall = document.getElementById('cursorBlur');
-        let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
-        let currentX = mouseX, currentY = mouseY;
-        const speed = 0.08;
+        let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2, currentX = mouseX, currentY = mouseY;
         function animateBlur() {
-            currentX += (mouseX - currentX) * speed;
-            currentY += (mouseY - currentY) * speed;
+            currentX += (mouseX - currentX) * 0.07;
+            currentY += (mouseY - currentY) * 0.07;
             blurBall.style.left = currentX + 'px';
             blurBall.style.top = currentY + 'px';
             requestAnimationFrame(animateBlur);
         }
         animateBlur();
         window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-
-        const sections = {
-            home: document.getElementById('home'),
-            news: document.getElementById('news'),
-            latest: document.getElementById('latest'),
-            upcoming: document.getElementById('upcoming'),
-            social: document.getElementById('social')
-        };
-        function scrollToSection(id) { const el = sections[id]; if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const section = btn.getAttribute('data-section');
-                if(section) scrollToSection(section);
-                mobileMenu.classList.remove('open');
-                overlay.classList.remove('show');
-            });
+        window.addEventListener('click', () => {
+            blurBall.classList.add('clicked');
+            playSound('click', 600);
+            setTimeout(() => blurBall.classList.remove('clicked'), 150);
         });
 
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const overlay = document.getElementById('menuOverlay');
+        // остальной код (навигация, карусель) без изменений ...
+        const sections = { home: document.getElementById('home'), news: document.getElementById('news'), latest: document.getElementById('latest'), upcoming: document.getElementById('upcoming'), social: document.getElementById('social') };
+        function scrollToSection(id) { const el = sections[id]; if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        document.querySelectorAll('.nav-btn').forEach(btn => { btn.addEventListener('click', (e) => { const section = btn.getAttribute('data-section'); if(section) scrollToSection(section); mobileMenu.classList.remove('open'); overlay.classList.remove('show'); }); });
+        const menuToggle = document.getElementById('menuToggle'), mobileMenu = document.getElementById('mobileMenu'), overlay = document.getElementById('menuOverlay');
         menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('open'); overlay.classList.toggle('show'); });
         overlay.addEventListener('click', () => { mobileMenu.classList.remove('open'); overlay.classList.remove('show'); });
         mobileMenu.querySelectorAll('.nav-btn').forEach(b => b.addEventListener('click', () => { mobileMenu.classList.remove('open'); overlay.classList.remove('show'); }));
-        window.addEventListener('resize', () => { if(window.innerWidth > 780) { mobileMenu.classList.remove('open'); overlay.classList.remove('show'); } });
 
-        // Карусель новостей
-        const slides = document.querySelectorAll('.carousel-slide');
-        const slidesContainer = document.getElementById('carouselSlides');
-        const dotsContainer = document.getElementById('carouselDots');
-        const prevBtn = document.getElementById('prevSlide');
-        const nextBtn = document.getElementById('nextSlide');
-        let currentIndex = 0;
-        const totalSlides = slides.length;
-
-        function updateCarousel() {
-            slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-            const dots = dotsContainer.children;
-            for(let i=0; i<dots.length; i++) {
-                dots[i].classList.toggle('active', i === currentIndex);
-            }
-        }
-
-        function createDots() {
-            for(let i=0; i<totalSlides; i++) {
-                const dot = document.createElement('span');
-                dot.classList.add('dot');
-                dot.addEventListener('click', () => {
-                    currentIndex = i;
-                    updateCarousel();
-                });
-                dotsContainer.appendChild(dot);
-            }
-        }
-
-        if(totalSlides > 1) {
-            createDots();
-            updateCarousel();
-            prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-                updateCarousel();
-            });
-            nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % totalSlides;
-                updateCarousel();
-            });
-        } else {
-            prevBtn.style.opacity = '0.3'; prevBtn.style.pointerEvents = 'none';
-            nextBtn.style.opacity = '0.3'; nextBtn.style.pointerEvents = 'none';
-        }
+        // carousel
+        const slides = document.querySelectorAll('.carousel-slide'), slidesContainer = document.getElementById('carouselSlides'), dotsContainer = document.getElementById('carouselDots'), prevBtn = document.getElementById('prevSlide'), nextBtn = document.getElementById('nextSlide');
+        let currentIndex = 0; const totalSlides = slides.length;
+        function updateCarousel() { slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`; const dots = dotsContainer.children; for(let i=0; i<dots.length; i++) dots[i].classList.toggle('active', i === currentIndex); }
+        function createDots() { for(let i=0; i<totalSlides; i++) { const dot = document.createElement('span'); dot.classList.add('dot'); dot.addEventListener('click', () => { currentIndex = i; updateCarousel(); }); dotsContainer.appendChild(dot); } }
+        if(totalSlides > 1) { createDots(); updateCarousel(); prevBtn.addEventListener('click', () => { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; updateCarousel(); }); nextBtn.addEventListener('click', () => { currentIndex = (currentIndex + 1) % totalSlides; updateCarousel(); }); }
+        else { prevBtn.style.opacity = '0.3'; prevBtn.style.pointerEvents = 'none'; nextBtn.style.opacity = '0.3'; nextBtn.style.pointerEvents = 'none'; }
     })();
 </script>
 </body>
