@@ -580,30 +580,6 @@
             .mobile-nav { display: flex; }
             .artist-name { font-size: 3.8rem; }
             .track-title { font-size: 1.1rem; }
-            
-            /* Центрируем аватар и имя на мобилках */
-            .artist-card {
-                flex-direction: column;
-                text-align: center;
-                padding: 30px 25px;
-            }
-            .artist-avatar {
-                width: 180px;
-                height: 180px;
-                margin: 0 auto;
-            }
-            .artist-info {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .artist-name {
-                text-align: center;
-            }
-            .artist-desc {
-                text-align: left;
-            }
         }
 
         @media screen and (max-width: 600px) {
@@ -633,7 +609,6 @@
         }
 
         @media screen and (max-width: 480px) {
-            .artist-name { font-size: 3.2rem; }
             .track-title { font-size: 1rem; }
             .track-feat { font-size: 0.9rem; }
             .track-sub-light { font-size: 0.85rem; }
@@ -832,4 +807,171 @@
                     <span class="track-title">Project X</span>
                     <span class="track-feat">(Deluxe Version)</span>
                     <span class="track-sub-light"> Album</span>
-                    <span class="track-date">??.??.26</span
+                    <span class="track-date">??.??.26</span>
+                    <span class="track-soon">Soon</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- СОЦ. СЕТИ -->
+    <section id="social">
+        <h2 class="section-title">Соц. сети</h2>
+        <div class="social-grid">
+            <a href="https://t.me/diviaxel" target="_blank" class="social-button"><i class="fab fa-telegram-plane social-icon"></i><span class="social-label">Telegram</span><span class="social-url-hint">t.me/diviaxel</span></a>
+            <a href="https://www.tiktok.com/@diviaxel" target="_blank" class="social-button"><i class="fab fa-tiktok social-icon"></i><span class="social-label">TikTok</span><span class="social-url-hint">@diviaxel</span></a>
+            <a href="https://vk.ru/diviaxel" target="_blank" class="social-button"><i class="fab fa-vk social-icon"></i><span class="social-label">VK</span><span class="social-url-hint">vk.ru/diviaxel</span></a>
+            <a href="https://www.instagram.com/diviaxel" target="_blank" class="social-button"><i class="fab fa-instagram social-icon"></i><span class="social-label">Instagram</span><span class="social-url-hint">@diviaxel</span></a>
+        </div>
+    </section>
+
+    <footer class="footer-note">
+        Сайт был нежно слизан у моей лучшей подруги CashiFly.
+        <div><a href="https://t.me/CashiFly" target="_blank" class="credit-link">t.me/CashiFly</a></div>
+    </footer>
+</div>
+
+<script>
+    (function(){
+        // Audio context
+        let audioCtx = null;
+        function initAudio() {
+            if (audioCtx) return;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = 440;
+                gain.gain.setValueAtTime(0.03, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now+0.8);
+                osc.connect(gain).connect(audioCtx.destination);
+                osc.start();
+                osc.stop(now+0.8);
+            } catch(e) {}
+        }
+        function playHoverSound() {
+            if (!audioCtx) { initAudio(); return; }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.value = 880;
+            gain.gain.setValueAtTime(0.02, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now+0.05);
+            osc.connect(gain).connect(audioCtx.destination);
+            osc.start();
+            osc.stop(now+0.06);
+        }
+        function playClickSound() {
+            if (!audioCtx) { initAudio(); return; }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'square';
+            osc.frequency.value = 1200;
+            gain.gain.setValueAtTime(0.025, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now+0.04);
+            osc.connect(gain).connect(audioCtx.destination);
+            osc.start();
+            osc.stop(now+0.05);
+        }
+
+        document.body.addEventListener('click', function audioUnlock() {
+            initAudio();
+            document.body.removeEventListener('click', audioUnlock);
+        }, { once: true });
+
+        const hoverElements = document.querySelectorAll('a, .nav-btn, .carousel-arrow, .dot, .menu-icon, .social-button, .track-row, .lyrics-btn, .news-button');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => { playHoverSound(); });
+        });
+
+        // Курсор
+        const blurBall = document.getElementById('cursorBlur');
+        const trail = document.getElementById('cursorTrail');
+        let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+        let trailX = mouseX, trailY = mouseY;
+
+        function animateCursor() {
+            trailX += (mouseX - trailX) * 0.12;
+            trailY += (mouseY - trailY) * 0.12;
+            blurBall.style.left = mouseX + 'px';
+            blurBall.style.top = mouseY + 'px';
+            trail.style.left = trailX + 'px';
+            trail.style.top = trailY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+        window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+
+        document.addEventListener('click', (e) => {
+            const flash = document.createElement('div');
+            flash.className = 'click-flash';
+            flash.style.left = e.clientX + 'px';
+            flash.style.top = e.clientY + 'px';
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 400);
+            playClickSound();
+        });
+
+        // Скролл и меню
+        const sections = {
+            home: document.getElementById('home'),
+            news: document.getElementById('news'),
+            latest: document.getElementById('latest'),
+            upcoming: document.getElementById('upcoming'),
+            social: document.getElementById('social')
+        };
+        function scrollToSection(id) { const el = sections[id]; if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const section = btn.getAttribute('data-section');
+                if(section) scrollToSection(section);
+                mobileMenu.classList.remove('open');
+                overlay.classList.remove('show');
+            });
+        });
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('menuOverlay');
+        menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('open'); overlay.classList.toggle('show'); });
+        overlay.addEventListener('click', () => { mobileMenu.classList.remove('open'); overlay.classList.remove('show'); });
+        mobileMenu.querySelectorAll('.nav-btn').forEach(b => b.addEventListener('click', () => { mobileMenu.classList.remove('open'); overlay.classList.remove('show'); }));
+        window.addEventListener('resize', () => { if(window.innerWidth > 780) { mobileMenu.classList.remove('open'); overlay.classList.remove('show'); } });
+
+        // Карусель
+        const slides = document.querySelectorAll('.carousel-slide');
+        const slidesContainer = document.getElementById('carouselSlides');
+        const dotsContainer = document.getElementById('carouselDots');
+        const prevBtn = document.getElementById('prevSlide');
+        const nextBtn = document.getElementById('nextSlide');
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        function updateCarousel() {
+            slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+            const dots = dotsContainer.children;
+            for(let i=0; i<dots.length; i++) dots[i].classList.toggle('active', i === currentIndex);
+        }
+        function createDots() {
+            for(let i=0; i<totalSlides; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                dot.addEventListener('click', () => { currentIndex = i; updateCarousel(); });
+                dotsContainer.appendChild(dot);
+            }
+        }
+        if(totalSlides > 1) {
+            createDots(); updateCarousel();
+            prevBtn.addEventListener('click', () => { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; updateCarousel(); });
+            nextBtn.addEventListener('click', () => { currentIndex = (currentIndex + 1) % totalSlides; updateCarousel(); });
+        } else { prevBtn.style.opacity = '0.3'; prevBtn.style.pointerEvents = 'none'; nextBtn.style.opacity = '0.3'; nextBtn.style.pointerEvents = 'none'; }
+    })();
+</script>
+</body>
+</html>
